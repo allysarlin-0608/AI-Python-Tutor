@@ -2,12 +2,30 @@ import streamlit as st
 
 st.title("AI Python Tutor")
 
-st.write("Ask a question about Python.")
+st.write("Learn Python through conversation with your AI tutor.")
 
-question = st.text_input("Your question")
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-if st.button("Ask"):
-    if question:
-        st.write("You asked:", question)
-    else:
-        st.error("Please enter a question.")
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+prompt = st.chat_input("Ask a Python question...")
+
+if prompt:
+    st.session_state.messages.append({
+        "role": "user",
+        "content": prompt
+    })
+
+    with st.chat_message("user"):
+        st.write(prompt)
+
+    with st.chat_message("assistant"):
+        st.write("Your AI response will appear here.")
+
+    st.session_state.messages.append({
+        "role": "assistant",
+        "content": "Your AI response will appear here."
+    })
