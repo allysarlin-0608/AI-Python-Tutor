@@ -22,12 +22,9 @@ if "messages" not in st.session_state:
 if "mode" not in st.session_state:
     st.session_state.mode = "Learn"
 
-if "selected_topic" not in st.session_state:
-    st.session_state.selected_topic = "Python Basics"
-
 
 # ============================================================
-# LIQUID GLASS DESIGN
+# APPLE-INSPIRED LIQUID GLASS DESIGN
 # ============================================================
 
 st.markdown(
@@ -35,30 +32,46 @@ st.markdown(
 <style>
 
 /* ==========================================================
-   GLOBAL
+   BASE
    ========================================================== */
 
+html, body, [class*="css"] {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+}
+
 .stApp {
+
     background:
         radial-gradient(
-            circle at 15% 5%,
-            rgba(255, 255, 255, 0.95),
-            transparent 30%
+            900px 500px at 15% -10%,
+            rgba(255,255,255,0.98),
+            transparent 70%
         ),
         radial-gradient(
-            circle at 85% 10%,
-            rgba(225, 225, 230, 0.70),
-            transparent 30%
+            700px 500px at 90% 5%,
+            rgba(225,225,230,0.65),
+            transparent 70%
         ),
-        #f5f5f7;
+        linear-gradient(
+            135deg,
+            #f7f7f9 0%,
+            #f2f2f5 100%
+        );
 
     color: #1d1d1f;
 }
 
 .block-container {
-    max-width: 1050px;
-    padding-top: 45px;
-    padding-bottom: 140px;
+    max-width: 1060px;
+    padding-top: 48px;
+    padding-bottom: 150px;
 }
 
 #MainMenu {
@@ -79,11 +92,18 @@ header {
    ========================================================== */
 
 section[data-testid="stSidebar"] {
-    background: rgba(246, 246, 248, 0.72);
-    backdrop-filter: blur(35px);
-    -webkit-backdrop-filter: blur(35px);
 
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(250,250,252,0.78),
+            rgba(242,242,245,0.72)
+        );
+
+    backdrop-filter: blur(40px) saturate(140%);
+    -webkit-backdrop-filter: blur(40px) saturate(140%);
+
+    border-right: 1px solid rgba(0,0,0,0.055);
 }
 
 section[data-testid="stSidebar"] > div {
@@ -91,66 +111,75 @@ section[data-testid="stSidebar"] > div {
 }
 
 .sidebar-brand {
+
     font-size: 19px;
+
     font-weight: 650;
+
     letter-spacing: -0.4px;
+
     color: #1d1d1f;
 }
 
 .sidebar-description {
+
     margin-top: 5px;
-    margin-bottom: 28px;
+
+    margin-bottom: 27px;
+
+    font-size: 13px;
+
+    line-height: 1.5;
 
     color: #6e6e73;
-    font-size: 13px;
-    line-height: 1.5;
 }
 
 
 /* ==========================================================
-   BUTTONS
+   SIDEBAR BUTTON
    ========================================================== */
 
 .stButton > button {
 
-    width: 100%;
+    background:
+        rgba(255,255,255,0.68) !important;
 
-    background: rgba(255, 255, 255, 0.68) !important;
+    color:
+        #1d1d1f !important;
 
-    color: #1d1d1f !important;
+    border:
+        1px solid rgba(0,0,0,0.065) !important;
 
-    border: 1px solid rgba(0, 0, 0, 0.07) !important;
-
-    border-radius: 14px !important;
-
-    padding: 10px 14px !important;
-
-    font-size: 14px !important;
+    border-radius:
+        13px !important;
 
     box-shadow:
-        0 5px 18px rgba(0, 0, 0, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        0 4px 14px rgba(0,0,0,0.035),
+        inset 0 1px 0 rgba(255,255,255,0.95);
 
     transition:
-        transform 0.18s ease,
-        background 0.18s ease,
-        box-shadow 0.18s ease;
+        transform 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
 }
 
 .stButton > button:hover {
 
-    background: rgba(255, 255, 255, 0.92) !important;
+    background:
+        rgba(255,255,255,0.88) !important;
 
-    transform: translateY(-2px);
+    transform:
+        translateY(-1px);
 
     box-shadow:
-        0 10px 28px rgba(0, 0, 0, 0.07),
-        inset 0 1px 0 rgba(255, 255, 255, 1);
+        0 7px 20px rgba(0,0,0,0.055),
+        inset 0 1px 0 rgba(255,255,255,1);
 }
 
 .stButton > button:active {
 
-    transform: scale(0.97);
+    transform:
+        scale(0.985);
 }
 
 
@@ -160,73 +189,95 @@ section[data-testid="stSidebar"] > div {
 
 div[data-baseweb="select"] > div {
 
-    background: rgba(255, 255, 255, 0.70) !important;
+    background:
+        rgba(255,255,255,0.65) !important;
 
-    border: 1px solid rgba(0, 0, 0, 0.07) !important;
+    border:
+        1px solid rgba(0,0,0,0.065) !important;
 
-    border-radius: 13px !important;
-
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border-radius:
+        12px !important;
 }
 
 
 /* ==========================================================
-   MAIN TITLE
-   ========================================================== */
-
-.main-title {
-
-    font-size: 42px;
-
-    font-weight: 650;
-
-    letter-spacing: -1.5px;
-
-    color: #1d1d1f;
-
-    margin-bottom: 6px;
-}
-
-.main-subtitle {
-
-    font-size: 16px;
-
-    color: #6e6e73;
-
-    margin-bottom: 30px;
-}
-
-
-/* ==========================================================
-   WELCOME GLASS
+   WELCOME
    ========================================================== */
 
 .welcome {
 
-    background: rgba(255, 255, 255, 0.60);
+    position: relative;
 
-    backdrop-filter: blur(35px);
-    -webkit-backdrop-filter: blur(35px);
+    overflow: hidden;
 
-    border: 1px solid rgba(255, 255, 255, 0.95);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.78),
+            rgba(255,255,255,0.48)
+        );
 
-    border-radius: 30px;
+    backdrop-filter:
+        blur(35px) saturate(145%);
 
-    padding: 65px 40px;
+    -webkit-backdrop-filter:
+        blur(35px) saturate(145%);
 
-    text-align: center;
+    border:
+        1px solid rgba(255,255,255,0.90);
+
+    border-radius:
+        28px;
+
+    padding:
+        64px 40px 58px;
+
+    text-align:
+        center;
 
     box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.07),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        0 18px 55px rgba(0,0,0,0.065),
+        inset 0 1px 0 rgba(255,255,255,0.98),
+        inset 0 -1px 0 rgba(0,0,0,0.025);
 
-    margin-top: 75px;
-
-    animation: appear 0.6s ease;
+    animation:
+        fadeUp 500ms cubic-bezier(0.22,1,0.36,1);
 }
 
+
+/* subtle glass reflection */
+
+.welcome::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -65%;
+
+    left: -10%;
+
+    width: 120%;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            115deg,
+            transparent 25%,
+            rgba(255,255,255,0.42) 42%,
+            transparent 60%
+        );
+
+    pointer-events: none;
+
+    opacity: 0.65;
+}
+
+
 .welcome-title {
+
+    position: relative;
 
     font-size: 30px;
 
@@ -236,16 +287,41 @@ div[data-baseweb="select"] > div {
 
     color: #1d1d1f;
 
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .welcome-text {
 
+    position: relative;
+
     font-size: 15px;
 
     color: #6e6e73;
+}
 
-    line-height: 1.6;
+
+/* ==========================================================
+   MODE SECTION
+   ========================================================== */
+
+.mode-section {
+
+    margin-top: 28px;
+
+    margin-bottom: 10px;
+}
+
+.mode-label {
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #6e6e73;
+
+    letter-spacing: 0.1px;
+
+    margin-bottom: 12px;
 }
 
 
@@ -255,121 +331,205 @@ div[data-baseweb="select"] > div {
 
 .mode-card {
 
-    background: rgba(255, 255, 255, 0.58);
+    position: relative;
 
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
+    overflow: hidden;
 
-    border: 1px solid rgba(255, 255, 255, 0.92);
+    height: 205px;
 
-    border-radius: 22px;
+    box-sizing: border-box;
 
-    padding: 25px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.76),
+            rgba(255,255,255,0.48)
+        );
 
-    min-height: 175px;
+    backdrop-filter:
+        blur(28px) saturate(140%);
+
+    -webkit-backdrop-filter:
+        blur(28px) saturate(140%);
+
+    border:
+        1px solid rgba(255,255,255,0.92);
+
+    border-radius:
+        22px;
+
+    padding:
+        25px;
 
     box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.045),
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        0 12px 35px rgba(0,0,0,0.055),
+        inset 0 1px 0 rgba(255,255,255,0.98),
+        inset 0 -1px 0 rgba(0,0,0,0.025);
 
     transition:
-        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.25s ease,
-        background 0.25s ease;
+        transform 220ms cubic-bezier(0.22,1,0.36,1),
+        box-shadow 220ms ease,
+        background 220ms ease;
 }
+
+
+/* reflection */
+
+.mode-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -60px;
+
+    left: -30%;
+
+    width: 160%;
+
+    height: 80px;
+
+    background:
+        linear-gradient(
+            105deg,
+            transparent 25%,
+            rgba(255,255,255,0.42),
+            transparent 70%
+        );
+
+    opacity: 0.55;
+
+    pointer-events: none;
+}
+
+
+/* hover */
 
 .mode-card:hover {
 
     transform:
-        translateY(-5px)
-        scale(1.015);
+        translateY(-4px);
 
-    background: rgba(255, 255, 255, 0.78);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.88),
+            rgba(255,255,255,0.58)
+        );
 
     box-shadow:
-        0 20px 45px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 1);
+        0 18px 45px rgba(0,0,0,0.075),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -1px 0 rgba(0,0,0,0.02);
 }
+
+
+/* ==========================================================
+   ICON
+   ========================================================== */
 
 .mode-icon {
 
-    width: 44px;
-    height: 44px;
+    position: relative;
+
+    width: 42px;
+
+    height: 42px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    background: rgba(245, 245, 247, 0.85);
+    background:
+        rgba(245,245,247,0.78);
 
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border:
+        1px solid rgba(0,0,0,0.055);
 
-    border-radius: 14px;
+    border-radius:
+        12px;
 
-    font-size: 20px;
+    color:
+        #1d1d1f;
 
-    margin-bottom: 18px;
+    margin-bottom:
+        18px;
 
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        inset 0 1px 0 rgba(255,255,255,0.95);
 
     transition:
-        transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-        background 0.25s ease;
+        transform 220ms cubic-bezier(0.22,1,0.36,1);
 }
 
 .mode-card:hover .mode-icon {
 
     transform:
-        scale(1.10)
+        scale(1.07)
         translateY(-1px);
-
-    background: #ffffff;
-}
-
-.mode-title {
-
-    font-size: 16px;
-
-    font-weight: 600;
-
-    color: #1d1d1f;
-
-    margin-bottom: 7px;
-}
-
-.mode-description {
-
-    font-size: 13px;
-
-    color: #6e6e73;
-
-    line-height: 1.55;
 }
 
 
 /* ==========================================================
-   MODE INDICATOR
+   MODE TEXT
    ========================================================== */
 
-.mode-indicator {
+.mode-title {
 
-    display: inline-block;
+    font-size:
+        16px;
 
-    background: rgba(255, 255, 255, 0.70);
+    font-weight:
+        600;
 
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    color:
+        #1d1d1f;
 
-    border-radius: 20px;
+    margin-bottom:
+        7px;
+}
 
-    padding: 7px 13px;
+.mode-description {
 
-    font-size: 12px;
+    font-size:
+        13px;
 
-    color: #6e6e73;
+    line-height:
+        1.55;
 
-    margin-bottom: 15px;
+    color:
+        #6e6e73;
+}
+
+
+/* ==========================================================
+   MODE BUTTON AREA
+   ========================================================== */
+
+.mode-action {
+
+    margin-top:
+        18px;
+}
+
+
+/* Make action buttons subtle */
+
+.mode-action .stButton > button {
+
+    height:
+        38px;
+
+    border-radius:
+        11px !important;
+
+    font-size:
+        13px !important;
+
+    background:
+        rgba(255,255,255,0.55) !important;
 }
 
 
@@ -379,24 +539,29 @@ div[data-baseweb="select"] > div {
 
 [data-testid="stChatMessage"] {
 
-    background: transparent !important;
+    background:
+        transparent !important;
 
-    border: none !important;
+    border:
+        none !important;
 
-    padding-top: 18px !important;
-
-    padding-bottom: 18px !important;
+    padding:
+        18px 0 !important;
 }
 
 [data-testid="stChatMessageContent"] {
 
-    color: #1d1d1f;
+    max-width:
+        790px;
 
-    font-size: 15px;
+    color:
+        #1d1d1f;
 
-    line-height: 1.75;
+    font-size:
+        15px;
 
-    max-width: 790px;
+    line-height:
+        1.75;
 }
 
 
@@ -408,83 +573,76 @@ div[data-baseweb="select"] > div {
     [data-testid="chatAvatarIcon-user"]
 ) {
 
-    background: rgba(255, 255, 255, 0.50) !important;
+    background:
+        rgba(255,255,255,0.52) !important;
 
-    border-radius: 20px !important;
+    border:
+        1px solid rgba(255,255,255,0.75) !important;
 
-    padding: 15px 18px !important;
+    border-radius:
+        18px !important;
 
-    margin: 5px 0 !important;
+    padding:
+        15px 18px !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.85);
 }
 
 
 /* ==========================================================
-   CODE
+   CODE BLOCK
    ========================================================== */
 
 pre {
 
-    background: rgba(235, 235, 237, 0.78) !important;
+    background:
+        rgba(235,235,237,0.78) !important;
 
-    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border:
+        1px solid rgba(0,0,0,0.055) !important;
 
-    border-radius: 16px !important;
+    border-radius:
+        15px !important;
 
-    padding: 18px !important;
+    padding:
+        17px !important;
 
     box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.85);
-}
-
-code {
-
-    font-family:
-        "SFMono-Regular",
-        "SF Mono",
-        Menlo,
-        Monaco,
-        Consolas,
-        monospace;
+        inset 0 1px 0 rgba(255,255,255,0.85);
 }
 
 
 /* ==========================================================
-   CHAT INPUT
+   INPUT
    ========================================================== */
 
 [data-testid="stChatInput"] {
 
-    background: transparent !important;
+    background:
+        transparent !important;
 }
 
 [data-testid="stChatInput"] > div {
 
-    background: rgba(255, 255, 255, 0.76) !important;
+    background:
+        rgba(255,255,255,0.78) !important;
 
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter:
+        blur(32px) saturate(140%);
 
-    border: 1px solid rgba(255, 255, 255, 0.96) !important;
+    -webkit-backdrop-filter:
+        blur(32px) saturate(140%);
 
-    border-radius: 23px !important;
+    border:
+        1px solid rgba(255,255,255,0.95) !important;
+
+    border-radius:
+        22px !important;
 
     box-shadow:
-        0 12px 45px rgba(0, 0, 0, 0.10),
-        inset 0 1px 0 rgba(255, 255, 255, 1);
-
-    padding: 5px !important;
-}
-
-[data-testid="stChatInput"] textarea {
-
-    color: #1d1d1f !important;
-
-    font-size: 15px !important;
-}
-
-[data-testid="stChatInput"] textarea::placeholder {
-
-    color: #8e8e93 !important;
+        0 14px 45px rgba(0,0,0,0.09),
+        inset 0 1px 0 rgba(255,255,255,1);
 }
 
 
@@ -492,27 +650,17 @@ code {
    ANIMATION
    ========================================================== */
 
-@keyframes appear {
+@keyframes fadeUp {
 
     from {
         opacity: 0;
-        transform: translateY(10px) scale(0.985);
+        transform: translateY(12px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0) scale(1);
+        transform: translateY(0);
     }
-}
-
-
-/* ==========================================================
-   DIVIDER
-   ========================================================== */
-
-hr {
-
-    border-color: rgba(0, 0, 0, 0.06) !important;
 }
 
 
@@ -530,9 +678,11 @@ hr {
 
 ::-webkit-scrollbar-thumb {
 
-    background: rgba(0, 0, 0, 0.14);
+    background:
+        rgba(0,0,0,0.13);
 
-    border-radius: 20px;
+    border-radius:
+        20px;
 }
 
 </style>
@@ -554,7 +704,7 @@ with st.sidebar:
 
     st.markdown(
         '<div class="sidebar-description">'
-        'Learn Python through conversation.'
+        'Learn Python through a focused AI tutor.'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -578,7 +728,7 @@ with st.sidebar:
             "Variables",
             "Data Types",
             "Operators",
-            "If Statements",
+            "Conditions",
             "Loops",
             "Functions",
             "Lists",
@@ -599,37 +749,18 @@ with st.sidebar:
 
     st.divider()
 
-    st.caption("Current mode")
+    st.caption("Mode")
     st.write(st.session_state.mode)
 
-    st.caption("Current topic")
+    st.caption("Topic")
     st.write(topic)
 
-    st.caption("Difficulty")
+    st.caption("Level")
     st.write(difficulty)
 
 
 # ============================================================
-# MAIN HEADER
-# ============================================================
-
-if st.session_state.messages:
-
-    st.markdown(
-        '<div class="main-title">AI Python Tutor</div>',
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        '<div class="main-subtitle">'
-        'Learn Python through conversation.'
-        '</div>',
-        unsafe_allow_html=True,
-    )
-
-
-# ============================================================
-# WELCOME SCREEN
+# MAIN
 # ============================================================
 
 if not st.session_state.messages:
@@ -640,127 +771,182 @@ if not st.session_state.messages:
         'How can I help you learn Python?'
         '</div>'
         '<div class="welcome-text">'
-        'Choose a learning mode or start a conversation.'
+        'Choose a mode to begin.'
         '</div>'
         '</div>',
         unsafe_allow_html=True,
     )
 
-    st.write("")
+    st.markdown(
+        '<div class="mode-section">'
+        '<div class="mode-label">Choose how you want to learn</div>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
 
     # --------------------------------------------------------
-    # MODE CARDS
+    # THREE EQUAL CARDS
     # --------------------------------------------------------
 
-    col1, col2, col3 = st.columns(3, gap="medium")
+    col1, col2, col3 = st.columns(
+        3,
+        gap="medium"
+    )
 
+
+    # ========================================================
+    # LEARN
+    # ========================================================
 
     with col1:
 
         st.markdown(
             '<div class="mode-card">'
-            '<div class="mode-icon">◇</div>'
-            '<div class="mode-title">Learn</div>'
+            '<div class="mode-icon">'
+            '◎'
+            '</div>'
+            '<div class="mode-title">'
+            'Learn'
+            '</div>'
             '<div class="mode-description">'
-            'Understand Python concepts with '
-            'simple explanations and examples.'
+            'Understand Python concepts through '
+            'clear explanations, examples, and '
+            'step-by-step guidance.'
             '</div>'
             '</div>',
             unsafe_allow_html=True,
         )
 
+        st.markdown(
+            '<div class="mode-action">',
+            unsafe_allow_html=True,
+        )
+
         if st.button(
-            "Start Learning",
-            key="learn_button",
+            "Start learning",
+            key="learn",
             use_container_width=True,
         ):
+
             st.session_state.mode = "Learn"
 
             st.session_state.messages.append(
                 {
                     "role": "assistant",
-                    "content": (
-                        "### Learning Mode\n\n"
+                    "content":
+                        "### Learn\n\n"
                         "What Python concept would you like "
                         "to understand?"
-                    ),
                 }
             )
 
             st.rerun()
 
+        st.markdown("</div>", unsafe_allow_html=True)
+
+
+    # ========================================================
+    # PRACTICE
+    # ========================================================
 
     with col2:
 
         st.markdown(
             '<div class="mode-card">'
-            '<div class="mode-icon">+</div>'
-            '<div class="mode-title">Practice</div>'
+            '<div class="mode-icon">'
+            '△'
+            '</div>'
+            '<div class="mode-title">'
+            'Practice'
+            '</div>'
             '<div class="mode-description">'
-            'Practice programming with questions '
-            'matched to your current level.'
+            'Build your programming skills with '
+            'questions and exercises matched '
+            'to your level.'
             '</div>'
             '</div>',
             unsafe_allow_html=True,
         )
 
+        st.markdown(
+            '<div class="mode-action">',
+            unsafe_allow_html=True,
+        )
+
         if st.button(
-            "Start Practice",
-            key="practice_button",
+            "Start practice",
+            key="practice",
             use_container_width=True,
         ):
+
             st.session_state.mode = "Practice"
 
             st.session_state.messages.append(
                 {
                     "role": "assistant",
-                    "content": (
-                        "### Practice Mode\n\n"
+                    "content":
+                        "### Practice\n\n"
                         f"Let's practice **{topic}** "
                         f"at the **{difficulty}** level.\n\n"
                         "I'll give you one problem at a time."
-                    ),
                 }
             )
 
             st.rerun()
 
+        st.markdown("</div>", unsafe_allow_html=True)
+
+
+    # ========================================================
+    # DEBUG
+    # ========================================================
 
     with col3:
 
         st.markdown(
             '<div class="mode-card">'
-            '<div class="mode-icon">&lt;/&gt;</div>'
-            '<div class="mode-title">Debug</div>'
+            '<div class="mode-icon">'
+            '</>'
+            '</div>'
+            '<div class="mode-title">'
+            'Debug'
+            '</div>'
             '<div class="mode-description">'
-            'Find problems in your code and understand '
-            'how to fix them.'
+            'Find errors in your Python code and '
+            'understand exactly why they happen '
+            'and how to fix them.'
             '</div>'
             '</div>',
             unsafe_allow_html=True,
         )
 
+        st.markdown(
+            '<div class="mode-action">',
+            unsafe_allow_html=True,
+        )
+
         if st.button(
-            "Start Debugging",
-            key="debug_button",
+            "Start debugging",
+            key="debug",
             use_container_width=True,
         ):
+
             st.session_state.mode = "Debug"
 
             st.session_state.messages.append(
                 {
                     "role": "assistant",
-                    "content": (
-                        "### Debug Mode\n\n"
+                    "content":
+                        "### Debug\n\n"
                         "Paste your Python code here.\n\n"
-                        "I'll help you identify the problem, "
-                        "explain why it happens, and show you "
-                        "how to fix it."
-                    ),
+                        "I'll help you understand the error, "
+                        "find its cause, and fix it."
                 }
             )
 
             st.rerun()
+
+        st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ============================================================
@@ -771,7 +957,9 @@ for message in st.session_state.messages:
 
     with st.chat_message(message["role"]):
 
-        st.markdown(message["content"])
+        st.markdown(
+            message["content"]
+        )
 
 
 # ============================================================
@@ -784,10 +972,6 @@ prompt = st.chat_input(
 
 
 if prompt:
-
-    # --------------------------------------------------------
-    # USER MESSAGE
-    # --------------------------------------------------------
 
     st.session_state.messages.append(
         {
@@ -802,65 +986,55 @@ if prompt:
 
 
     # --------------------------------------------------------
-    # TEMPORARY RESPONSE
+    # TEMPORARY AI RESPONSES
     # --------------------------------------------------------
 
     if st.session_state.mode == "Learn":
 
         response = (
-            "### Let's learn this step by step\n\n"
+            "### Let's work through it\n\n"
             f"You asked about **{prompt}**.\n\n"
-            "I'll start with the simplest explanation, "
-            "then use a Python example.\n\n"
+            "I'll start with the simplest explanation "
+            "and then connect it to Python.\n\n"
             "```python\n"
             'message = "Hello, Python!"\n'
             "print(message)\n"
             "```\n\n"
             "The variable `message` stores a value, "
-            "and `print()` displays that value.\n\n"
+            "and `print()` displays it.\n\n"
             "**Key idea:**\n"
-            "Break the problem into small pieces and "
-            "understand each piece before moving on."
+            "Understand the concept first, then practice it."
         )
 
     elif st.session_state.mode == "Practice":
 
         response = (
-            f"### Practice: {topic}\n\n"
-            f"**Level:** {difficulty}\n\n"
-            "Here's your next question:\n\n"
-            "Write a Python program that creates a "
-            "variable and prints its value.\n\n"
-            "Don't worry about getting it perfect. "
-            "Try it first, and I'll help you improve it."
+            f"### Practice\n\n"
+            f"Topic: **{topic}**\n\n"
+            f"Level: **{difficulty}**\n\n"
+            "Here's your next problem:\n\n"
+            "Create a Python variable and print its value.\n\n"
+            "Try it yourself first."
         )
 
     else:
 
         response = (
-            "### Debug Mode\n\n"
-            "Send me the Python code that isn't working.\n\n"
-            "I'll help you identify:\n\n"
-            "1. What the error means\n"
-            "2. Where the problem is\n"
-            "3. Why it happened\n"
-            "4. How to fix it\n"
-            "5. How to avoid the same problem later"
+            "### Debug\n\n"
+            "Paste your Python code here.\n\n"
+            "I'll check:\n\n"
+            "- What the error means\n"
+            "- Where the problem occurs\n"
+            "- Why it happens\n"
+            "- How to fix it\n"
+            "- How to avoid the problem next time"
         )
 
-
-    # --------------------------------------------------------
-    # ASSISTANT
-    # --------------------------------------------------------
 
     with st.chat_message("assistant"):
 
         st.markdown(response)
 
-
-    # --------------------------------------------------------
-    # SAVE RESPONSE
-    # --------------------------------------------------------
 
     st.session_state.messages.append(
         {
