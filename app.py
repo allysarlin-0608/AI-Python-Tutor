@@ -1,183 +1,243 @@
 import streamlit as st
 
-# -----------------------------
-# PAGE CONFIG
-# -----------------------------
+# -----------------------------------
+# PAGE SETTINGS
+# -----------------------------------
 
 st.set_page_config(
     page_title="AI Python Tutor",
     page_icon="",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
-# -----------------------------
-# CUSTOM CSS
-# -----------------------------
+# -----------------------------------
+# CHATGPT-STYLE CSS
+# -----------------------------------
 
 st.markdown("""
 <style>
 
-    /* ---------- GLOBAL ---------- */
+    /* ================================
+       GLOBAL
+       ================================ */
 
     .stApp {
-        background-color: #F7F8FA;
-        color: #111111;
+        background: #FFFFFF;
+        color: #171717;
     }
 
     .block-container {
-        max-width: 1200px;
-        padding-top: 2.5rem;
-        padding-bottom: 4rem;
+        max-width: 900px;
+        padding-top: 35px;
+        padding-bottom: 100px;
     }
 
-    /* ---------- SIDEBAR ---------- */
+    /* Remove Streamlit top spacing */
+    header {
+        background: transparent !important;
+    }
+
+
+    /* ================================
+       SIDEBAR
+       ================================ */
 
     section[data-testid="stSidebar"] {
-        background-color: #FFFFFF;
-        border-right: 1px solid #E5E7EB;
+        background: #F7F7F7;
+        border-right: 1px solid #E5E5E5;
     }
 
-    section[data-testid="stSidebar"] h1 {
-        font-size: 20px;
+    section[data-testid="stSidebar"] > div {
+        padding-top: 25px;
+    }
+
+    .sidebar-title {
+        font-size: 18px;
         font-weight: 600;
-        color: #111111;
+        color: #171717;
+        margin-bottom: 5px;
     }
 
-    section[data-testid="stSidebar"] p {
-        color: #6B7280;
-        font-size: 14px;
+    .sidebar-subtitle {
+        font-size: 13px;
+        color: #737373;
+        margin-bottom: 25px;
     }
 
-    /* ---------- HEADER ---------- */
 
-    .main-title {
-        font-size: 42px;
-        font-weight: 650;
-        letter-spacing: -1.5px;
-        color: #111111;
-        margin-bottom: 6px;
+    /* ================================
+       TITLE
+       ================================ */
+
+    .title {
+        font-size: 32px;
+        font-weight: 600;
+        letter-spacing: -0.8px;
+        color: #171717;
+        margin-bottom: 5px;
     }
 
     .subtitle {
-        font-size: 16px;
-        color: #6B7280;
+        font-size: 15px;
+        color: #737373;
         margin-bottom: 35px;
     }
 
-    /* ---------- CHAT ---------- */
+
+    /* ================================
+       CHAT MESSAGES
+       ================================ */
 
     [data-testid="stChatMessage"] {
-        border-radius: 12px;
-        padding: 18px 20px;
-        margin-bottom: 14px;
+        background: transparent !important;
+        border: none !important;
+        padding: 20px 0 !important;
     }
 
-    [data-testid="stChatMessage"] p {
+    [data-testid="stChatMessageContent"] {
+        max-width: 760px;
         font-size: 15px;
         line-height: 1.7;
     }
 
-    /* User message */
-
-    [data-testid="stChatMessage"]:has(
-        [data-testid="chatAvatarIcon-user"]
-    ) {
-        background-color: #EEF4FF;
-        border: 1px solid #D8E5FF;
+    [data-testid="stChatMessageContent"] p {
+        color: #171717;
     }
 
-    /* AI message */
 
-    [data-testid="stChatMessage"]:has(
-        [data-testid="chatAvatarIcon-assistant"]
-    ) {
-        background-color: #FFFFFF;
-        border: 1px solid #E5E7EB;
-    }
-
-    /* ---------- CODE ---------- */
-
-    code {
-        font-family: "SFMono-Regular", Consolas, monospace;
-    }
+    /* ================================
+       CODE BLOCKS
+       ================================ */
 
     pre {
-        border: 1px solid #E5E7EB !important;
+        background: #F7F7F7 !important;
+        border: 1px solid #E5E5E5 !important;
         border-radius: 8px !important;
-        background-color: #F3F4F6 !important;
+        padding: 16px !important;
     }
 
-    /* ---------- CHAT INPUT ---------- */
+    code {
+        font-family:
+            "SFMono-Regular",
+            "SF Mono",
+            Consolas,
+            monospace;
+    }
+
+
+    /* ================================
+       CHAT INPUT
+       ================================ */
 
     [data-testid="stChatInput"] {
-        border-color: #D1D5DB;
+        background: #FFFFFF;
+    }
+
+    [data-testid="stChatInput"] > div {
+        border: 1px solid #D9D9D9 !important;
+        border-radius: 14px !important;
+        background: #FFFFFF !important;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
 
     [data-testid="stChatInput"] textarea {
+        color: #171717 !important;
         font-size: 15px;
     }
 
-    /* ---------- BUTTONS ---------- */
-
-    .stButton > button {
-        border: 1px solid #D1D5DB;
-        background-color: #FFFFFF;
-        color: #111111;
-        border-radius: 7px;
-        font-weight: 500;
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: #8A8A8A;
     }
 
-    .stButton > button:hover {
-        border-color: #2563EB;
-        color: #2563EB;
-    }
 
-    /* ---------- DIVIDER ---------- */
+    /* ================================
+       BUTTONS
+       ================================ */
 
-    .divider {
-        height: 1px;
-        background-color: #E5E7EB;
-        margin: 25px 0;
-    }
-
-    /* ---------- INFO CARD ---------- */
-
-    .info-card {
-        background-color: #FFFFFF;
-        border: 1px solid #E5E7EB;
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-
-    .info-title {
+    .stButton button {
+        background: #FFFFFF !important;
+        color: #171717 !important;
+        border: 1px solid #D9D9D9 !important;
+        border-radius: 8px !important;
         font-size: 14px;
-        font-weight: 600;
-        color: #111111;
-        margin-bottom: 8px;
     }
 
-    .info-text {
-        font-size: 13px;
-        color: #6B7280;
-        line-height: 1.6;
+    .stButton button:hover {
+        background: #F2F2F2 !important;
+        border-color: #BDBDBD !important;
+    }
+
+
+    /* ================================
+       SELECT BOX
+       ================================ */
+
+    div[data-baseweb="select"] > div {
+        background: #FFFFFF !important;
+        border-color: #D9D9D9 !important;
+        border-radius: 8px !important;
+    }
+
+
+    /* ================================
+       DIVIDERS
+       ================================ */
+
+    hr {
+        border-color: #E5E5E5 !important;
+    }
+
+
+    /* ================================
+       WELCOME
+       ================================ */
+
+    .welcome {
+        text-align: center;
+        margin-top: 100px;
+        margin-bottom: 80px;
+    }
+
+    .welcome-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #171717;
+        margin-bottom: 10px;
+    }
+
+    .welcome-text {
+        font-size: 15px;
+        color: #737373;
     }
 
 </style>
 """, unsafe_allow_html=True)
 
 
-# -----------------------------
+# -----------------------------------
 # SIDEBAR
-# -----------------------------
+# -----------------------------------
 
 with st.sidebar:
 
-    st.markdown("""
-    <h1>Python Tutor</h1>
-    <p>Your personal programming tutor.</p>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="sidebar-title">AI Python Tutor</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="sidebar-subtitle">'
+        'Your personal Python learning assistant.'
+        '</div>',
+        unsafe_allow_html=True
+    )
+
+    if st.button(
+        "+ New conversation",
+        use_container_width=True
+    ):
+        st.session_state.messages = []
+        st.rerun()
 
     st.markdown("---")
 
@@ -194,13 +254,13 @@ with st.sidebar:
             "Functions",
             "Lists",
             "Dictionaries",
-            "Object-Oriented Programming",
+            "Classes & Objects",
             "Debugging"
         ]
     )
 
-    difficulty = st.selectbox(
-        "Level",
+    level = st.selectbox(
+        "Difficulty",
         [
             "Beginner",
             "Intermediate",
@@ -208,87 +268,58 @@ with st.sidebar:
         ]
     )
 
-    st.markdown("---")
 
-    if st.button("New Conversation", use_container_width=True):
-        st.session_state.messages = []
-        st.rerun()
-
-    st.markdown("""
-    <div class="info-card">
-        <div class="info-title">Learning approach</div>
-        <div class="info-text">
-            Ask questions naturally. Your tutor will explain
-            concepts step-by-step and provide examples.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-
-# -----------------------------
+# -----------------------------------
 # SESSION STATE
-# -----------------------------
+# -----------------------------------
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 
-# -----------------------------
-# MAIN HEADER
-# -----------------------------
-
-st.markdown(
-    '<div class="main-title">AI Python Tutor</div>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<div class="subtitle">'
-    'Learn Python through conversation with your personal AI tutor.'
-    '</div>',
-    unsafe_allow_html=True
-)
-
-
-# -----------------------------
-# WELCOME MESSAGE
-# -----------------------------
+# -----------------------------------
+# MAIN AREA
+# -----------------------------------
 
 if len(st.session_state.messages) == 0:
 
     st.markdown("""
-    <div class="info-card">
-        <div class="info-title">Start learning Python</div>
-        <div class="info-text">
-            Ask me anything about Python. I can explain concepts,
-            walk through code, find errors, and give you practice
-            problems.
+    <div class="welcome">
+
+        <div class="welcome-title">
+            How can I help you learn Python?
         </div>
+
+        <div class="welcome-text">
+            Ask a question, paste your code, or ask me to explain a concept.
+        </div>
+
     </div>
     """, unsafe_allow_html=True)
 
 
-# -----------------------------
-# DISPLAY CHAT HISTORY
-# -----------------------------
+# -----------------------------------
+# CHAT HISTORY
+# -----------------------------------
 
 for message in st.session_state.messages:
 
     with st.chat_message(message["role"]):
+
         st.markdown(message["content"])
 
 
-# -----------------------------
+# -----------------------------------
 # CHAT INPUT
-# -----------------------------
+# -----------------------------------
 
 prompt = st.chat_input(
-    "Ask a Python question..."
+    "Message AI Python Tutor..."
 )
 
 if prompt:
 
-    # Add user message
+    # User message
     st.session_state.messages.append({
         "role": "user",
         "content": prompt
@@ -297,21 +328,19 @@ if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
 
+
     # Temporary AI response
     response = f"""
-### Let's work through it
+I'd be happy to help you with that.
 
-You asked:
+### Let's break it down
+
+Your question was:
 
 > {prompt}
 
-I'll explain the concept step-by-step, then give you a simple Python example and a short practice question.
-"""
+I'll explain it step-by-step and use a simple Python example when appropriate.
 
-    with st.chat_message("assistant"):
-        st.markdown(response)
-
-    st.session_state.messages.append({
-        "role": "assistant",
-        "content": response
-    })
+```python
+# Example
+print("Hello, Python!")
