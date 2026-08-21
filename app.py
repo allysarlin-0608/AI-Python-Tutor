@@ -1,303 +1,456 @@
 import streamlit as st
 
 # ============================================================
-# PAGE
+# PAGE CONFIG
 # ============================================================
 
 st.set_page_config(
     page_title="AI Python Tutor",
     page_icon="",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
 
 
 # ============================================================
-# LIQUID GLASS DESIGN
+# APPLE-INSPIRED LIQUID GLASS CSS
 # ============================================================
 
 st.markdown(
     """
-    <style>
-
-    /* --------------------------------------------------------
-       GLOBAL
-    -------------------------------------------------------- */
-
-    .stApp {
-        background:
-            radial-gradient(
-                circle at 20% 10%,
-                rgba(255, 255, 255, 0.95),
-                transparent 35%
-            ),
-            radial-gradient(
-                circle at 80% 20%,
-                rgba(230, 230, 235, 0.55),
-                transparent 35%
-            ),
-            #f5f5f7;
-
-        color: #1d1d1f;
-    }
-
-    .block-container {
-        max-width: 1000px;
-        padding-top: 40px;
-        padding-bottom: 130px;
-    }
-
-    header {
-        background: transparent !important;
-    }
-
-    #MainMenu {
-        visibility: hidden;
-    }
-
-    footer {
-        visibility: hidden;
-    }
-
-
-    /* --------------------------------------------------------
-       SIDEBAR
-    -------------------------------------------------------- */
-
-    section[data-testid="stSidebar"] {
-        background: rgba(245, 245, 247, 0.72);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        border-right: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .sidebar-title {
-        font-size: 19px;
-        font-weight: 600;
-        letter-spacing: -0.3px;
-        color: #1d1d1f;
-    }
-
-    .sidebar-description {
-        font-size: 13px;
-        color: #6e6e73;
-        margin-top: 4px;
-        margin-bottom: 28px;
-    }
-
-
-    /* --------------------------------------------------------
-       TITLE
-    -------------------------------------------------------- */
-
-    .page-title {
-        font-size: 38px;
-        font-weight: 600;
-        letter-spacing: -1.2px;
-        color: #1d1d1f;
-        margin-bottom: 6px;
-    }
-
-    .page-subtitle {
-        font-size: 15px;
-        color: #6e6e73;
-        margin-bottom: 35px;
-    }
-
-
-    /* --------------------------------------------------------
-       WELCOME GLASS
-    -------------------------------------------------------- */
-
-    .welcome-glass {
-        background: rgba(255, 255, 255, 0.58);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-
-        border: 1px solid rgba(255, 255, 255, 0.85);
-        border-radius: 28px;
-
-        padding: 55px 40px;
-        text-align: center;
+<style>
+
+/* ==========================================================
+   ROOT
+   ========================================================== */
 
-        box-shadow:
-            0 20px 60px rgba(0, 0, 0, 0.07),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+:root {
+    --background: #f5f5f7;
+    --surface: rgba(255, 255, 255, 0.72);
+    --surface-strong: rgba(255, 255, 255, 0.88);
+    --border: rgba(0, 0, 0, 0.08);
+    --text: #1d1d1f;
+    --secondary: #6e6e73;
+    --muted: #86868b;
+}
 
-        margin-top: 90px;
-    }
 
-    .welcome-title {
-        font-size: 29px;
-        font-weight: 600;
-        letter-spacing: -0.7px;
-        color: #1d1d1f;
-        margin-bottom: 10px;
-    }
+/* ==========================================================
+   APP BACKGROUND
+   ========================================================== */
 
-    .welcome-description {
-        font-size: 15px;
-        color: #6e6e73;
-    }
+.stApp {
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(255,255,255,0.95),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(225,225,230,0.75),
+            transparent 30%
+        ),
+        #f5f5f7;
 
+    color: var(--text);
+}
 
-    /* --------------------------------------------------------
-       CHAT
-    -------------------------------------------------------- */
 
-    [data-testid="stChatMessage"] {
-        background: transparent !important;
-        border: none !important;
-        padding: 18px 0 !important;
-    }
+/* ==========================================================
+   MAIN CONTENT
+   ========================================================== */
 
-    [data-testid="stChatMessageContent"] {
-        font-size: 15px;
-        line-height: 1.75;
-        color: #1d1d1f;
-    }
+.block-container {
+    max-width: 1050px;
+    padding-top: 48px;
+    padding-bottom: 150px;
+}
 
 
-    /* --------------------------------------------------------
-       CODE BLOCKS
-    -------------------------------------------------------- */
+/* ==========================================================
+   REMOVE DEFAULT STREAMLIT BRANDING
+   ========================================================== */
 
-    pre {
-        background: rgba(235, 235, 237, 0.75) !important;
+#MainMenu {
+    visibility: hidden;
+}
 
-        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+footer {
+    visibility: hidden;
+}
 
-        border-radius: 16px !important;
+header {
+    background: transparent !important;
+}
 
-        padding: 18px !important;
 
-        box-shadow:
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    }
+/* ==========================================================
+   SIDEBAR
+   ========================================================== */
 
-    code {
-        font-family:
-            "SFMono-Regular",
-            "SF Mono",
-            Menlo,
-            Monaco,
-            Consolas,
-            monospace;
-    }
+section[data-testid="stSidebar"] {
 
+    background: rgba(246, 246, 248, 0.72);
 
-    /* --------------------------------------------------------
-       CHAT INPUT
-    -------------------------------------------------------- */
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
 
-    [data-testid="stChatInput"] {
-        background: transparent !important;
-    }
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
 
-    [data-testid="stChatInput"] > div {
-        background: rgba(255, 255, 255, 0.72) !important;
+section[data-testid="stSidebar"] > div {
+    padding: 28px 20px;
+}
 
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
 
-        border: 1px solid rgba(255, 255, 255, 0.95) !important;
+/* Sidebar title */
 
-        border-radius: 22px !important;
+.sidebar-brand {
+    font-size: 19px;
+    font-weight: 650;
+    letter-spacing: -0.4px;
+    color: #1d1d1f;
+}
 
-        box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.10),
-            inset 0 1px 0 rgba(255, 255, 255, 0.95);
+.sidebar-caption {
+    margin-top: 4px;
+    margin-bottom: 28px;
+    color: #6e6e73;
+    font-size: 13px;
+    line-height: 1.5;
+}
 
-        padding: 5px !important;
-    }
 
-    [data-testid="stChatInput"] textarea {
-        color: #1d1d1f !important;
-        font-size: 15px;
-    }
+/* ==========================================================
+   NEW CHAT BUTTON
+   ========================================================== */
 
-    [data-testid="stChatInput"] textarea::placeholder {
-        color: #8e8e93;
-    }
+.stButton > button {
 
+    width: 100%;
 
-    /* --------------------------------------------------------
-       BUTTONS
-    -------------------------------------------------------- */
+    background: rgba(255,255,255,0.68) !important;
 
-    .stButton > button {
-        background: rgba(255, 255, 255, 0.60) !important;
+    color: #1d1d1f !important;
 
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,0,0,0.07) !important;
 
-        color: #1d1d1f !important;
+    border-radius: 14px !important;
 
-        border: 1px solid rgba(255, 255, 255, 0.90) !important;
+    padding: 10px 14px !important;
 
-        border-radius: 14px !important;
+    font-size: 14px !important;
 
-        box-shadow:
-            0 4px 15px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.9);
 
-        transition: all 0.2s ease;
-    }
+    transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        box-shadow 0.18s ease;
+}
 
-    .stButton > button:hover {
-        background: rgba(255, 255, 255, 0.85) !important;
+.stButton > button:hover {
 
-        border-color: rgba(0, 0, 0, 0.08) !important;
+    background: rgba(255,255,255,0.92) !important;
 
-        transform: translateY(-1px);
-    }
+    transform: translateY(-1px);
 
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.07),
+        inset 0 1px 0 rgba(255,255,255,1);
+}
 
-    /* --------------------------------------------------------
-       SELECT BOX
-    -------------------------------------------------------- */
 
-    div[data-baseweb="select"] > div {
-        background: rgba(255, 255, 255, 0.60) !important;
+/* ==========================================================
+   SELECT BOXES
+   ========================================================== */
 
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+div[data-baseweb="select"] > div {
 
-        border: 1px solid rgba(255, 255, 255, 0.90) !important;
+    background: rgba(255,255,255,0.68) !important;
 
-        border-radius: 13px !important;
-    }
+    border: 1px solid rgba(0,0,0,0.07) !important;
 
+    border-radius: 13px !important;
 
-    /* --------------------------------------------------------
-       DIVIDERS
-    -------------------------------------------------------- */
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.9);
+}
 
-    hr {
-        border-color: rgba(0, 0, 0, 0.07) !important;
-    }
 
+/* ==========================================================
+   MAIN HEADER
+   ========================================================== */
 
-    /* --------------------------------------------------------
-       SCROLLBAR
-    -------------------------------------------------------- */
+.main-heading {
 
-    ::-webkit-scrollbar {
-        width: 7px;
-    }
+    font-size: 42px;
 
-    ::-webkit-scrollbar-track {
-        background: transparent;
-    }
+    font-weight: 650;
 
-    ::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.16);
-        border-radius: 20px;
-    }
+    letter-spacing: -1.5px;
 
-    </style>
-    """,
-    unsafe_allow_html=True
+    color: #1d1d1f;
+
+    margin-bottom: 4px;
+}
+
+.main-subheading {
+
+    font-size: 16px;
+
+    color: #6e6e73;
+
+    margin-bottom: 35px;
+}
+
+
+/* ==========================================================
+   GLASS WELCOME PANEL
+   ========================================================== */
+
+.welcome-panel {
+
+    background: rgba(255,255,255,0.58);
+
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+
+    border: 1px solid rgba(255,255,255,0.92);
+
+    border-radius: 30px;
+
+    padding: 65px 45px;
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.07),
+        inset 0 1px 0 rgba(255,255,255,0.95);
+
+    margin-top: 70px;
+}
+
+.welcome-title {
+
+    font-size: 30px;
+
+    font-weight: 650;
+
+    letter-spacing: -0.8px;
+
+    color: #1d1d1f;
+
+    margin-bottom: 12px;
+}
+
+.welcome-description {
+
+    font-size: 15px;
+
+    color: #6e6e73;
+
+    line-height: 1.6;
+}
+
+
+/* ==========================================================
+   FEATURE CARDS
+   ========================================================== */
+
+.feature-card {
+
+    background: rgba(255,255,255,0.52);
+
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border: 1px solid rgba(255,255,255,0.9);
+
+    border-radius: 20px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,0.045),
+        inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.feature-title {
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #1d1d1f;
+
+    margin-bottom: 6px;
+}
+
+.feature-text {
+
+    font-size: 13px;
+
+    color: #6e6e73;
+
+    line-height: 1.5;
+}
+
+
+/* ==========================================================
+   CHAT
+   ========================================================== */
+
+[data-testid="stChatMessage"] {
+
+    background: transparent !important;
+
+    border: none !important;
+
+    padding-top: 18px !important;
+
+    padding-bottom: 18px !important;
+}
+
+
+[data-testid="stChatMessageContent"] {
+
+    color: #1d1d1f;
+
+    font-size: 15px;
+
+    line-height: 1.75;
+
+    max-width: 780px;
+}
+
+
+/* ==========================================================
+   USER MESSAGE
+   ========================================================== */
+
+[data-testid="stChatMessage"]:has(
+    [data-testid="chatAvatarIcon-user"]
+) {
+
+    background: rgba(255,255,255,0.40) !important;
+
+    border-radius: 20px !important;
+
+    padding: 15px 18px !important;
+
+    margin: 5px 0 !important;
+}
+
+
+/* ==========================================================
+   CODE
+   ========================================================== */
+
+pre {
+
+    background: rgba(235,235,237,0.78) !important;
+
+    border: 1px solid rgba(0,0,0,0.06) !important;
+
+    border-radius: 16px !important;
+
+    padding: 18px !important;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+code {
+
+    font-family:
+        "SFMono-Regular",
+        "SF Mono",
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+}
+
+
+/* ==========================================================
+   CHAT INPUT
+   ========================================================== */
+
+[data-testid="stChatInput"] {
+
+    background: transparent !important;
+}
+
+
+[data-testid="stChatInput"] > div {
+
+    background: rgba(255,255,255,0.76) !important;
+
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+
+    border: 1px solid rgba(255,255,255,0.95) !important;
+
+    border-radius: 23px !important;
+
+    box-shadow:
+        0 12px 45px rgba(0,0,0,0.10),
+        inset 0 1px 0 rgba(255,255,255,1);
+
+    padding: 5px !important;
+}
+
+
+[data-testid="stChatInput"] textarea {
+
+    color: #1d1d1f !important;
+
+    font-size: 15px !important;
+}
+
+
+[data-testid="stChatInput"] textarea::placeholder {
+
+    color: #8e8e93 !important;
+}
+
+
+/* ==========================================================
+   DIVIDERS
+   ========================================================== */
+
+hr {
+
+    border-color: rgba(0,0,0,0.06) !important;
+}
+
+
+/* ==========================================================
+   SCROLLBAR
+   ========================================================== */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: rgba(0,0,0,0.14);
+
+    border-radius: 20px;
+}
+
+</style>
+""",
+    unsafe_allow_html=True,
 )
 
 
@@ -308,20 +461,20 @@ st.markdown(
 with st.sidebar:
 
     st.markdown(
-        '<div class="sidebar-title">AI Python Tutor</div>',
-        unsafe_allow_html=True
+        '<div class="sidebar-brand">AI Python Tutor</div>',
+        unsafe_allow_html=True,
     )
 
     st.markdown(
-        '<div class="sidebar-description">'
-        'Learn Python through conversation.'
+        '<div class="sidebar-caption">'
+        'A simple environment for learning Python.'
         '</div>',
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
 
     if st.button(
         "+  New conversation",
-        use_container_width=True
+        use_container_width=True,
     ):
         st.session_state.messages = []
         st.rerun()
@@ -336,76 +489,145 @@ with st.sidebar:
             "Python Basics",
             "Variables",
             "Data Types",
-            "Conditions",
+            "Operators",
+            "If Statements",
             "Loops",
             "Functions",
             "Lists",
             "Dictionaries",
-            "Classes",
-            "Debugging"
-        ]
+            "Classes & Objects",
+            "Debugging",
+        ],
     )
 
     difficulty = st.selectbox(
-        "Level",
+        "Difficulty",
         [
             "Beginner",
             "Intermediate",
-            "Advanced"
-        ]
+            "Advanced",
+        ],
     )
 
     st.divider()
 
-    st.caption("AI Python Tutor")
-    st.caption("Learn • Practice • Understand")
+    st.caption("Current topic")
+    st.write(topic)
+
+    st.caption("Current level")
+    st.write(difficulty)
 
 
 # ============================================================
-# SESSION
+# SESSION STATE
 # ============================================================
 
 if "messages" not in st.session_state:
+
     st.session_state.messages = []
 
 
 # ============================================================
-# WELCOME
+# MAIN HEADER
+# ============================================================
+
+if st.session_state.messages:
+
+    st.markdown(
+        '<div class="main-heading">AI Python Tutor</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        '<div class="main-subheading">'
+        'Learn Python through conversation.'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+
+# ============================================================
+# WELCOME SCREEN
 # ============================================================
 
 if not st.session_state.messages:
 
     st.markdown(
-        """
-        <div class="welcome-glass">
-
-            <div class="welcome-title">
-                How can I help you learn Python?
-            </div>
-
-            <div class="welcome-description">
-                Ask a question, paste your code,
-                or explore a Python concept.
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True
+        '<div class="welcome-panel">'
+        '<div class="welcome-title">'
+        'How can I help you learn Python?'
+        '</div>'
+        '<div class="welcome-description">'
+        'Ask a question, paste your code, '
+        'or explore a Python concept.'
+        '</div>'
+        '</div>',
+        unsafe_allow_html=True,
     )
+
+    st.write("")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+
+        st.markdown(
+            '<div class="feature-card">'
+            '<div class="feature-title">'
+            'Learn'
+            '</div>'
+            '<div class="feature-text">'
+            'Understand Python concepts with '
+            'clear explanations.'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+    with col2:
+
+        st.markdown(
+            '<div class="feature-card">'
+            '<div class="feature-title">'
+            'Practice'
+            '</div>'
+            '<div class="feature-text">'
+            'Solve small programming exercises '
+            'and build your skills.'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+    with col3:
+
+        st.markdown(
+            '<div class="feature-card">'
+            '<div class="feature-title">'
+            'Debug'
+            '</div>'
+            '<div class="feature-text">'
+            'Paste your code and understand '
+            'why something is not working.'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
 
 
 # ============================================================
-# CHAT HISTORY
+# DISPLAY CHAT HISTORY
 # ============================================================
 
 for message in st.session_state.messages:
 
     with st.chat_message(message["role"]):
+
         st.markdown(message["content"])
 
 
 # ============================================================
-# INPUT
+# CHAT INPUT
 # ============================================================
 
 prompt = st.chat_input(
@@ -415,47 +637,62 @@ prompt = st.chat_input(
 
 if prompt:
 
-    # User
+    # --------------------------------------------------------
+    # USER
+    # --------------------------------------------------------
+
     st.session_state.messages.append(
         {
             "role": "user",
-            "content": prompt
+            "content": prompt,
         }
     )
 
     with st.chat_message("user"):
+
         st.markdown(prompt)
 
 
-    # Temporary tutor response
+    # --------------------------------------------------------
+    # TEMPORARY TUTOR RESPONSE
+    # --------------------------------------------------------
+
     response = (
-        "Let's work through that together.\n\n"
+        "Let's work through this step by step.\n\n"
         "### Your question\n\n"
         f"> {prompt}\n\n"
         "### Explanation\n\n"
-        "I'll explain the concept step by step "
-        "and keep the example simple.\n\n"
+        "I'll explain the idea in simple terms first, "
+        "then connect it to Python.\n\n"
         "### Example\n\n"
         "```python\n"
         'name = "Python"\n'
         'print(name)\n'
         "```\n\n"
-        "The variable `name` stores the text "
+        "The variable `name` stores the value "
         '`"Python"`.\n\n'
-        "### Try it yourself\n\n"
-        "Change the value of `name` and run the program again."
+        "### Practice\n\n"
+        "Try changing the value of `name` and "
+        "run the program again."
     )
 
 
-    # AI
+    # --------------------------------------------------------
+    # ASSISTANT
+    # --------------------------------------------------------
+
     with st.chat_message("assistant"):
+
         st.markdown(response)
 
 
-    # Save
+    # --------------------------------------------------------
+    # SAVE
+    # --------------------------------------------------------
+
     st.session_state.messages.append(
         {
             "role": "assistant",
-            "content": response
+            "content": response,
         }
     )
