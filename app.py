@@ -1,54 +1,61 @@
 import streamlit as st
 
-# -----------------------------------
-# PAGE SETTINGS
-# -----------------------------------
+# =========================================================
+# PAGE CONFIGURATION
+# =========================================================
 
 st.set_page_config(
     page_title="AI Python Tutor",
     page_icon="",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# -----------------------------------
-# CHATGPT-STYLE CSS
-# -----------------------------------
 
-st.markdown("""
-<style>
+# =========================================================
+# CUSTOM DESIGN
+# =========================================================
 
-    /* ================================
+st.markdown(
+    """
+    <style>
+
+    /* =========================
        GLOBAL
-       ================================ */
+       ========================= */
 
     .stApp {
-        background: #FFFFFF;
+        background-color: #FFFFFF;
         color: #171717;
     }
 
     .block-container {
         max-width: 900px;
-        padding-top: 35px;
-        padding-bottom: 100px;
+        padding-top: 40px;
+        padding-bottom: 120px;
     }
 
-    /* Remove Streamlit top spacing */
+    /* Hide Streamlit branding */
+    #MainMenu {
+        visibility: hidden;
+    }
+
+    footer {
+        visibility: hidden;
+    }
+
     header {
         background: transparent !important;
     }
 
 
-    /* ================================
+    /* =========================
        SIDEBAR
-       ================================ */
+       ========================= */
 
     section[data-testid="stSidebar"] {
-        background: #F7F7F7;
+        background-color: #F7F7F7;
         border-right: 1px solid #E5E5E5;
-    }
-
-    section[data-testid="stSidebar"] > div {
-        padding-top: 25px;
     }
 
     .sidebar-title {
@@ -58,18 +65,18 @@ st.markdown("""
         margin-bottom: 5px;
     }
 
-    .sidebar-subtitle {
+    .sidebar-description {
         font-size: 13px;
         color: #737373;
         margin-bottom: 25px;
     }
 
 
-    /* ================================
+    /* =========================
        TITLE
-       ================================ */
+       ========================= */
 
-    .title {
+    .page-title {
         font-size: 32px;
         font-weight: 600;
         letter-spacing: -0.8px;
@@ -77,25 +84,46 @@ st.markdown("""
         margin-bottom: 5px;
     }
 
-    .subtitle {
+    .page-subtitle {
         font-size: 15px;
         color: #737373;
-        margin-bottom: 35px;
+        margin-bottom: 40px;
     }
 
 
-    /* ================================
-       CHAT MESSAGES
-       ================================ */
+    /* =========================
+       WELCOME SCREEN
+       ========================= */
+
+    .welcome {
+        text-align: center;
+        margin-top: 130px;
+    }
+
+    .welcome-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #171717;
+        margin-bottom: 12px;
+    }
+
+    .welcome-description {
+        font-size: 15px;
+        color: #737373;
+    }
+
+
+    /* =========================
+       CHAT
+       ========================= */
 
     [data-testid="stChatMessage"] {
-        background: transparent !important;
+        background-color: transparent !important;
         border: none !important;
         padding: 20px 0 !important;
     }
 
     [data-testid="stChatMessageContent"] {
-        max-width: 760px;
         font-size: 15px;
         line-height: 1.7;
     }
@@ -105,15 +133,14 @@ st.markdown("""
     }
 
 
-    /* ================================
-       CODE BLOCKS
-       ================================ */
+    /* =========================
+       CODE
+       ========================= */
 
     pre {
-        background: #F7F7F7 !important;
+        background-color: #F7F7F7 !important;
         border: 1px solid #E5E5E5 !important;
         border-radius: 8px !important;
-        padding: 16px !important;
     }
 
     code {
@@ -125,19 +152,19 @@ st.markdown("""
     }
 
 
-    /* ================================
+    /* =========================
        CHAT INPUT
-       ================================ */
+       ========================= */
 
     [data-testid="stChatInput"] {
-        background: #FFFFFF;
+        background-color: #FFFFFF;
     }
 
     [data-testid="stChatInput"] > div {
+        background-color: #FFFFFF !important;
         border: 1px solid #D9D9D9 !important;
         border-radius: 14px !important;
-        background: #FFFFFF !important;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     [data-testid="stChatInput"] textarea {
@@ -150,73 +177,42 @@ st.markdown("""
     }
 
 
-    /* ================================
+    /* =========================
        BUTTONS
-       ================================ */
+       ========================= */
 
     .stButton button {
-        background: #FFFFFF !important;
+        background-color: #FFFFFF !important;
         color: #171717 !important;
         border: 1px solid #D9D9D9 !important;
         border-radius: 8px !important;
-        font-size: 14px;
     }
 
     .stButton button:hover {
-        background: #F2F2F2 !important;
+        background-color: #F2F2F2 !important;
         border-color: #BDBDBD !important;
     }
 
 
-    /* ================================
+    /* =========================
        SELECT BOX
-       ================================ */
+       ========================= */
 
     div[data-baseweb="select"] > div {
-        background: #FFFFFF !important;
+        background-color: #FFFFFF !important;
         border-color: #D9D9D9 !important;
         border-radius: 8px !important;
     }
 
-
-    /* ================================
-       DIVIDERS
-       ================================ */
-
-    hr {
-        border-color: #E5E5E5 !important;
-    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 
-    /* ================================
-       WELCOME
-       ================================ */
-
-    .welcome {
-        text-align: center;
-        margin-top: 100px;
-        margin-bottom: 80px;
-    }
-
-    .welcome-title {
-        font-size: 28px;
-        font-weight: 600;
-        color: #171717;
-        margin-bottom: 10px;
-    }
-
-    .welcome-text {
-        font-size: 15px;
-        color: #737373;
-    }
-
-</style>
-""", unsafe_allow_html=True)
-
-
-# -----------------------------------
+# =========================================================
 # SIDEBAR
-# -----------------------------------
+# =========================================================
 
 with st.sidebar:
 
@@ -226,12 +222,13 @@ with st.sidebar:
     )
 
     st.markdown(
-        '<div class="sidebar-subtitle">'
+        '<div class="sidebar-description">'
         'Your personal Python learning assistant.'
         '</div>',
         unsafe_allow_html=True
     )
 
+    # New conversation
     if st.button(
         "+ New conversation",
         use_container_width=True
@@ -239,7 +236,7 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
 
-    st.markdown("---")
+    st.divider()
 
     st.markdown("### Learning")
 
@@ -259,7 +256,7 @@ with st.sidebar:
         ]
     )
 
-    level = st.selectbox(
+    difficulty = st.selectbox(
         "Difficulty",
         [
             "Beginner",
@@ -268,79 +265,111 @@ with st.sidebar:
         ]
     )
 
+    st.divider()
 
-# -----------------------------------
+    st.caption("AI Python Tutor")
+    st.caption("Learn • Practice • Understand")
+
+
+# =========================================================
 # SESSION STATE
-# -----------------------------------
+# =========================================================
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 
-# -----------------------------------
-# MAIN AREA
-# -----------------------------------
+# =========================================================
+# MAIN PAGE
+# =========================================================
 
 if len(st.session_state.messages) == 0:
 
-    st.markdown("""
-    <div class="welcome">
-
-        <div class="welcome-title">
-            How can I help you learn Python?
-        </div>
-
-        <div class="welcome-text">
-            Ask a question, paste your code, or ask me to explain a concept.
-        </div>
-
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        '<div class="welcome">'
+        '<div class="welcome-title">'
+        'How can I help you learn Python?'
+        '</div>'
+        '<div class="welcome-description">'
+        'Ask a question, paste your code, or ask me to explain a concept.'
+        '</div>'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
 
-# -----------------------------------
-# CHAT HISTORY
-# -----------------------------------
+# =========================================================
+# DISPLAY PREVIOUS MESSAGES
+# =========================================================
 
 for message in st.session_state.messages:
 
     with st.chat_message(message["role"]):
-
         st.markdown(message["content"])
 
 
-# -----------------------------------
+# =========================================================
 # CHAT INPUT
-# -----------------------------------
+# =========================================================
 
-prompt = st.chat_input(
-    "Message AI Python Tutor..."
-)
+prompt = st.chat_input("Message AI Python Tutor...")
+
 
 if prompt:
 
-    # User message
-    st.session_state.messages.append({
-        "role": "user",
-        "content": prompt
-    })
+    # ---------------------------------------------
+    # USER MESSAGE
+    # ---------------------------------------------
+
+    st.session_state.messages.append(
+        {
+            "role": "user",
+            "content": prompt
+        }
+    )
 
     with st.chat_message("user"):
         st.markdown(prompt)
 
 
-    # Temporary AI response
-    response = f"""
-I'd be happy to help you with that.
+    # ---------------------------------------------
+    # TEMPORARY AI RESPONSE
+    # ---------------------------------------------
 
-### Let's break it down
+    response = (
+        "Let's work through that together.\n\n"
+        "### Your question\n\n"
+        f"> {prompt}\n\n"
+        "### Explanation\n\n"
+        "I'll explain the concept step by step and keep the "
+        "examples simple.\n\n"
+        "### Example\n\n"
+        "```python\n"
+        'name = "Python"\n'
+        'print(name)\n'
+        "```\n\n"
+        "Here, `name` is a variable that stores the text "
+        '`"Python"`.\n\n'
+        "### Try it yourself\n\n"
+        "Change the value of `name` and run the program again."
+    )
 
-Your question was:
 
-> {prompt}
+    # ---------------------------------------------
+    # AI MESSAGE
+    # ---------------------------------------------
 
-I'll explain it step-by-step and use a simple Python example when appropriate.
+    with st.chat_message("assistant"):
+        st.markdown(response)
 
-```python
-# Example
-print("Hello, Python!")
+
+    # ---------------------------------------------
+    # SAVE AI MESSAGE
+    # ---------------------------------------------
+
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": response
+        }
+    )
