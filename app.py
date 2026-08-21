@@ -1,8 +1,8 @@
 import streamlit as st
 
-# =========================================================
-# PAGE CONFIGURATION
-# =========================================================
+# ============================================================
+# PAGE
+# ============================================================
 
 st.set_page_config(
     page_title="AI Python Tutor",
@@ -12,30 +12,45 @@ st.set_page_config(
 )
 
 
-# =========================================================
-# CUSTOM DESIGN
-# =========================================================
+# ============================================================
+# LIQUID GLASS DESIGN
+# ============================================================
 
 st.markdown(
     """
     <style>
 
-    /* =========================
+    /* --------------------------------------------------------
        GLOBAL
-       ========================= */
+    -------------------------------------------------------- */
 
     .stApp {
-        background-color: #FFFFFF;
-        color: #171717;
+        background:
+            radial-gradient(
+                circle at 20% 10%,
+                rgba(255, 255, 255, 0.95),
+                transparent 35%
+            ),
+            radial-gradient(
+                circle at 80% 20%,
+                rgba(230, 230, 235, 0.55),
+                transparent 35%
+            ),
+            #f5f5f7;
+
+        color: #1d1d1f;
     }
 
     .block-container {
-        max-width: 900px;
+        max-width: 1000px;
         padding-top: 40px;
-        padding-bottom: 120px;
+        padding-bottom: 130px;
     }
 
-    /* Hide Streamlit branding */
+    header {
+        background: transparent !important;
+    }
+
     #MainMenu {
         visibility: hidden;
     }
@@ -44,164 +59,240 @@ st.markdown(
         visibility: hidden;
     }
 
-    header {
-        background: transparent !important;
-    }
 
-
-    /* =========================
+    /* --------------------------------------------------------
        SIDEBAR
-       ========================= */
+    -------------------------------------------------------- */
 
     section[data-testid="stSidebar"] {
-        background-color: #F7F7F7;
-        border-right: 1px solid #E5E5E5;
+        background: rgba(245, 245, 247, 0.72);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-right: 1px solid rgba(255, 255, 255, 0.8);
     }
 
     .sidebar-title {
-        font-size: 18px;
+        font-size: 19px;
         font-weight: 600;
-        color: #171717;
-        margin-bottom: 5px;
+        letter-spacing: -0.3px;
+        color: #1d1d1f;
     }
 
     .sidebar-description {
         font-size: 13px;
-        color: #737373;
-        margin-bottom: 25px;
+        color: #6e6e73;
+        margin-top: 4px;
+        margin-bottom: 28px;
     }
 
 
-    /* =========================
+    /* --------------------------------------------------------
        TITLE
-       ========================= */
+    -------------------------------------------------------- */
 
     .page-title {
-        font-size: 32px;
+        font-size: 38px;
         font-weight: 600;
-        letter-spacing: -0.8px;
-        color: #171717;
-        margin-bottom: 5px;
+        letter-spacing: -1.2px;
+        color: #1d1d1f;
+        margin-bottom: 6px;
     }
 
     .page-subtitle {
         font-size: 15px;
-        color: #737373;
-        margin-bottom: 40px;
+        color: #6e6e73;
+        margin-bottom: 35px;
     }
 
 
-    /* =========================
-       WELCOME SCREEN
-       ========================= */
+    /* --------------------------------------------------------
+       WELCOME GLASS
+    -------------------------------------------------------- */
 
-    .welcome {
+    .welcome-glass {
+        background: rgba(255, 255, 255, 0.58);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        border-radius: 28px;
+
+        padding: 55px 40px;
         text-align: center;
-        margin-top: 130px;
+
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.07),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+        margin-top: 90px;
     }
 
     .welcome-title {
-        font-size: 28px;
+        font-size: 29px;
         font-weight: 600;
-        color: #171717;
-        margin-bottom: 12px;
+        letter-spacing: -0.7px;
+        color: #1d1d1f;
+        margin-bottom: 10px;
     }
 
     .welcome-description {
         font-size: 15px;
-        color: #737373;
+        color: #6e6e73;
     }
 
 
-    /* =========================
+    /* --------------------------------------------------------
        CHAT
-       ========================= */
+    -------------------------------------------------------- */
 
     [data-testid="stChatMessage"] {
-        background-color: transparent !important;
+        background: transparent !important;
         border: none !important;
-        padding: 20px 0 !important;
+        padding: 18px 0 !important;
     }
 
     [data-testid="stChatMessageContent"] {
         font-size: 15px;
-        line-height: 1.7;
-    }
-
-    [data-testid="stChatMessageContent"] p {
-        color: #171717;
+        line-height: 1.75;
+        color: #1d1d1f;
     }
 
 
-    /* =========================
-       CODE
-       ========================= */
+    /* --------------------------------------------------------
+       CODE BLOCKS
+    -------------------------------------------------------- */
 
     pre {
-        background-color: #F7F7F7 !important;
-        border: 1px solid #E5E5E5 !important;
-        border-radius: 8px !important;
+        background: rgba(235, 235, 237, 0.75) !important;
+
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+
+        border-radius: 16px !important;
+
+        padding: 18px !important;
+
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
 
     code {
         font-family:
             "SFMono-Regular",
             "SF Mono",
+            Menlo,
+            Monaco,
             Consolas,
             monospace;
     }
 
 
-    /* =========================
+    /* --------------------------------------------------------
        CHAT INPUT
-       ========================= */
+    -------------------------------------------------------- */
 
     [data-testid="stChatInput"] {
-        background-color: #FFFFFF;
+        background: transparent !important;
     }
 
     [data-testid="stChatInput"] > div {
-        background-color: #FFFFFF !important;
-        border: 1px solid #D9D9D9 !important;
-        border-radius: 14px !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        background: rgba(255, 255, 255, 0.72) !important;
+
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+
+        border: 1px solid rgba(255, 255, 255, 0.95) !important;
+
+        border-radius: 22px !important;
+
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.10),
+            inset 0 1px 0 rgba(255, 255, 255, 0.95);
+
+        padding: 5px !important;
     }
 
     [data-testid="stChatInput"] textarea {
-        color: #171717 !important;
+        color: #1d1d1f !important;
         font-size: 15px;
     }
 
     [data-testid="stChatInput"] textarea::placeholder {
-        color: #8A8A8A;
+        color: #8e8e93;
     }
 
 
-    /* =========================
+    /* --------------------------------------------------------
        BUTTONS
-       ========================= */
+    -------------------------------------------------------- */
 
-    .stButton button {
-        background-color: #FFFFFF !important;
-        color: #171717 !important;
-        border: 1px solid #D9D9D9 !important;
-        border-radius: 8px !important;
+    .stButton > button {
+        background: rgba(255, 255, 255, 0.60) !important;
+
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+
+        color: #1d1d1f !important;
+
+        border: 1px solid rgba(255, 255, 255, 0.90) !important;
+
+        border-radius: 14px !important;
+
+        box-shadow:
+            0 4px 15px rgba(0, 0, 0, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+        transition: all 0.2s ease;
     }
 
-    .stButton button:hover {
-        background-color: #F2F2F2 !important;
-        border-color: #BDBDBD !important;
+    .stButton > button:hover {
+        background: rgba(255, 255, 255, 0.85) !important;
+
+        border-color: rgba(0, 0, 0, 0.08) !important;
+
+        transform: translateY(-1px);
     }
 
 
-    /* =========================
+    /* --------------------------------------------------------
        SELECT BOX
-       ========================= */
+    -------------------------------------------------------- */
 
     div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        border-color: #D9D9D9 !important;
-        border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.60) !important;
+
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+
+        border: 1px solid rgba(255, 255, 255, 0.90) !important;
+
+        border-radius: 13px !important;
+    }
+
+
+    /* --------------------------------------------------------
+       DIVIDERS
+    -------------------------------------------------------- */
+
+    hr {
+        border-color: rgba(0, 0, 0, 0.07) !important;
+    }
+
+
+    /* --------------------------------------------------------
+       SCROLLBAR
+    -------------------------------------------------------- */
+
+    ::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.16);
+        border-radius: 20px;
     }
 
     </style>
@@ -210,9 +301,9 @@ st.markdown(
 )
 
 
-# =========================================================
+# ============================================================
 # SIDEBAR
-# =========================================================
+# ============================================================
 
 with st.sidebar:
 
@@ -223,14 +314,13 @@ with st.sidebar:
 
     st.markdown(
         '<div class="sidebar-description">'
-        'Your personal Python learning assistant.'
+        'Learn Python through conversation.'
         '</div>',
         unsafe_allow_html=True
     )
 
-    # New conversation
     if st.button(
-        "+ New conversation",
+        "+  New conversation",
         use_container_width=True
     ):
         st.session_state.messages = []
@@ -246,18 +336,18 @@ with st.sidebar:
             "Python Basics",
             "Variables",
             "Data Types",
-            "If Statements",
+            "Conditions",
             "Loops",
             "Functions",
             "Lists",
             "Dictionaries",
-            "Classes & Objects",
+            "Classes",
             "Debugging"
         ]
     )
 
     difficulty = st.selectbox(
-        "Difficulty",
+        "Level",
         [
             "Beginner",
             "Intermediate",
@@ -271,36 +361,42 @@ with st.sidebar:
     st.caption("Learn • Practice • Understand")
 
 
-# =========================================================
-# SESSION STATE
-# =========================================================
+# ============================================================
+# SESSION
+# ============================================================
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 
-# =========================================================
-# MAIN PAGE
-# =========================================================
+# ============================================================
+# WELCOME
+# ============================================================
 
-if len(st.session_state.messages) == 0:
+if not st.session_state.messages:
 
     st.markdown(
-        '<div class="welcome">'
-        '<div class="welcome-title">'
-        'How can I help you learn Python?'
-        '</div>'
-        '<div class="welcome-description">'
-        'Ask a question, paste your code, or ask me to explain a concept.'
-        '</div>'
-        '</div>',
+        """
+        <div class="welcome-glass">
+
+            <div class="welcome-title">
+                How can I help you learn Python?
+            </div>
+
+            <div class="welcome-description">
+                Ask a question, paste your code,
+                or explore a Python concept.
+            </div>
+
+        </div>
+        """,
         unsafe_allow_html=True
     )
 
 
-# =========================================================
-# DISPLAY PREVIOUS MESSAGES
-# =========================================================
+# ============================================================
+# CHAT HISTORY
+# ============================================================
 
 for message in st.session_state.messages:
 
@@ -308,19 +404,18 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 
-# =========================================================
-# CHAT INPUT
-# =========================================================
+# ============================================================
+# INPUT
+# ============================================================
 
-prompt = st.chat_input("Message AI Python Tutor...")
+prompt = st.chat_input(
+    "Message AI Python Tutor..."
+)
 
 
 if prompt:
 
-    # ---------------------------------------------
-    # USER MESSAGE
-    # ---------------------------------------------
-
+    # User
     st.session_state.messages.append(
         {
             "role": "user",
@@ -332,41 +427,32 @@ if prompt:
         st.markdown(prompt)
 
 
-    # ---------------------------------------------
-    # TEMPORARY AI RESPONSE
-    # ---------------------------------------------
-
+    # Temporary tutor response
     response = (
         "Let's work through that together.\n\n"
         "### Your question\n\n"
         f"> {prompt}\n\n"
         "### Explanation\n\n"
-        "I'll explain the concept step by step and keep the "
-        "examples simple.\n\n"
+        "I'll explain the concept step by step "
+        "and keep the example simple.\n\n"
         "### Example\n\n"
         "```python\n"
         'name = "Python"\n'
         'print(name)\n'
         "```\n\n"
-        "Here, `name` is a variable that stores the text "
+        "The variable `name` stores the text "
         '`"Python"`.\n\n'
         "### Try it yourself\n\n"
         "Change the value of `name` and run the program again."
     )
 
 
-    # ---------------------------------------------
-    # AI MESSAGE
-    # ---------------------------------------------
-
+    # AI
     with st.chat_message("assistant"):
         st.markdown(response)
 
 
-    # ---------------------------------------------
-    # SAVE AI MESSAGE
-    # ---------------------------------------------
-
+    # Save
     st.session_state.messages.append(
         {
             "role": "assistant",
