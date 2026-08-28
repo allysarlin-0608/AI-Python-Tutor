@@ -97,21 +97,21 @@ st.markdown(
 :root {
     --c-white: #ffffff;
     --c-black: #000000;
-    --c-50:  #fafafa;
-    --c-100: #f5f5f5;
-    --c-150: #eeeeee;
-    --c-200: #e5e5e5;
-    --c-300: #d4d4d4;
-    --c-400: #a3a3a3;
-    --c-500: #737373;
-    --c-600: #525252;
-    --c-700: #3f3f3f;
-    --c-800: #262626;
-    --c-900: #171717;
-    --glass-fill: rgba(255,255,255,0.62);
-    --glass-fill-strong: rgba(255,255,255,0.85);
-    --glass-border: rgba(255,255,255,0.9);
-    --glass-shadow: rgba(0,0,0,0.08);
+    --c-50:  #050505;
+    --c-100: #0c0c0c;
+    --c-150: #121212;
+    --c-200: #181818;
+    --c-300: #292929;
+    --c-400: #565656;
+    --c-500: #9a9a9a;
+    --c-600: #bdbdbd;
+    --c-700: #d8d8d8;
+    --c-800: #ececec;
+    --c-900: #f5f5f5;
+    --glass-fill: rgba(255,255,255,0.06);
+    --glass-fill-strong: rgba(255,255,255,0.1);
+    --glass-border: rgba(255,255,255,0.12);
+    --glass-shadow: rgba(0,0,0,0.5);
     --ease-out: cubic-bezier(0.22,1,0.36,1);
 }
 /* ==========================================================
@@ -129,9 +129,9 @@ html, body, [class*="css"] {
 }
 .stApp {
     background:
-        radial-gradient(900px 500px at 15% -10%, rgba(255,255,255,0.98), transparent 70%),
-        radial-gradient(700px 500px at 90% 5%, rgba(229,229,229,0.6), transparent 70%),
-        linear-gradient(135deg, var(--c-100) 0%, var(--c-150) 100%);
+        radial-gradient(900px 500px at 15% -10%, rgba(255,255,255,0.05), transparent 70%),
+        radial-gradient(700px 500px at 90% 5%, rgba(255,255,255,0.03), transparent 70%),
+        linear-gradient(135deg, #000000 0%, var(--c-100) 100%);
     color: var(--c-900);
 }
 .block-container {
@@ -147,10 +147,10 @@ header { background: transparent !important; }
    SIDEBAR
    ========================================================== */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, rgba(250,250,250,0.8), rgba(240,240,240,0.75));
+    background: linear-gradient(180deg, rgba(10,10,10,0.9), rgba(0,0,0,0.95));
     backdrop-filter: blur(40px) saturate(120%);
     -webkit-backdrop-filter: blur(40px) saturate(120%);
-    border-right: 1px solid rgba(0,0,0,0.06);
+    border-right: 1px solid rgba(255,255,255,0.08);
 }
 section[data-testid="stSidebar"] > div {
     padding: 28px 20px;
@@ -184,7 +184,7 @@ section[data-testid="stSidebar"] > div {
     height: 7px;
     border-radius: 50%;
     background: var(--c-900);
-    box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
     animation: pulse 2.2s ease-in-out infinite;
 }
 .status-dot.off {
@@ -201,15 +201,15 @@ section[data-testid="stSidebar"] > div {
 .stButton > button {
     background: var(--glass-fill) !important;
     color: var(--c-900) !important;
-    border: 1px solid rgba(0,0,0,0.07) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 13px !important;
-    box-shadow: 0 4px 14px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.95);
+    box-shadow: 0 4px 14px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.06);
     transition: transform 180ms var(--ease-out), background 180ms ease, box-shadow 220ms ease;
 }
 .stButton > button:hover {
     background: var(--glass-fill-strong) !important;
     transform: translateY(-1px);
-    box-shadow: 0 8px 22px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,1);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.12);
 }
 .stButton > button:active {
     transform: scale(0.97);
@@ -220,16 +220,16 @@ section[data-testid="stSidebar"] > div {
    ========================================================== */
 div[data-baseweb="select"] > div,
 .stTextInput input {
-    background: rgba(255,255,255,0.65) !important;
-    border: 1px solid rgba(0,0,0,0.07) !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 12px !important;
     color: var(--c-900) !important;
     transition: box-shadow 200ms ease, border-color 200ms ease;
 }
 div[data-baseweb="select"]:focus-within > div,
 .stTextInput input:focus {
-    border-color: rgba(0,0,0,0.25) !important;
-    box-shadow: 0 0 0 4px rgba(0,0,0,0.06) !important;
+    border-color: rgba(255,255,255,0.35) !important;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.08) !important;
 }
 /* ==========================================================
    WELCOME
@@ -237,14 +237,14 @@ div[data-baseweb="select"]:focus-within > div,
 .welcome {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(145deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5));
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
     backdrop-filter: blur(35px) saturate(120%);
     -webkit-backdrop-filter: blur(35px) saturate(120%);
-    border: 1px solid rgba(255,255,255,0.92);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 28px;
     padding: 64px 40px 58px;
     text-align: center;
-    box-shadow: 0 18px 55px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.98), inset 0 -1px 0 rgba(0,0,0,0.025);
+    box-shadow: 0 18px 55px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.3);
     animation: fadeUp 550ms var(--ease-out);
 }
 .welcome::before {
@@ -254,7 +254,7 @@ div[data-baseweb="select"]:focus-within > div,
     left: -10%;
     width: 120%;
     height: 100%;
-    background: linear-gradient(115deg, transparent 25%, rgba(255,255,255,0.45) 42%, transparent 60%);
+    background: linear-gradient(115deg, transparent 25%, rgba(255,255,255,0.08) 42%, transparent 60%);
     pointer-events: none;
     opacity: 0.6;
     animation: sheen 3.5s ease-in-out infinite;
@@ -299,13 +299,13 @@ div[data-baseweb="select"]:focus-within > div,
     overflow: hidden;
     height: 205px;
     box-sizing: border-box;
-    background: linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.5));
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
     backdrop-filter: blur(28px) saturate(120%);
     -webkit-backdrop-filter: blur(28px) saturate(120%);
-    border: 1px solid rgba(255,255,255,0.94);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 22px;
     padding: 25px;
-    box-shadow: 0 12px 35px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.98), inset 0 -1px 0 rgba(0,0,0,0.025);
+    box-shadow: 0 12px 35px var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.3);
     transition: transform 240ms var(--ease-out), box-shadow 240ms ease, background 240ms ease;
     animation: cardIn 520ms var(--ease-out) both;
 }
@@ -323,14 +323,14 @@ div[data-baseweb="select"]:focus-within > div,
     left: -30%;
     width: 160%;
     height: 80px;
-    background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.45), transparent 70%);
+    background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.08), transparent 70%);
     opacity: 0.5;
     pointer-events: none;
 }
 .mode-card:hover {
     transform: translateY(-5px);
-    background: linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,255,255,0.62));
-    box-shadow: 0 20px 48px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(0,0,0,0.02);
+    background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04));
+    box-shadow: 0 20px 48px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.25);
 }
 .mode-icon {
     position: relative;
@@ -339,18 +339,18 @@ div[data-baseweb="select"]:focus-within > div,
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--c-100);
-    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
     color: var(--c-900);
     margin-bottom: 18px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.95);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
     transition: transform 240ms var(--ease-out), background 240ms ease;
 }
 .mode-card:hover .mode-icon {
     transform: scale(1.08) translateY(-1px) rotate(-4deg);
     background: var(--c-900);
-    color: var(--c-white);
+    color: var(--c-black);
 }
 .mode-title {
     font-size: 16px;
@@ -368,7 +368,7 @@ div[data-baseweb="select"]:focus-within > div,
     height: 38px;
     border-radius: 11px !important;
     font-size: 13px !important;
-    background: rgba(255,255,255,0.55) !important;
+    background: rgba(255,255,255,0.06) !important;
 }
 /* ==========================================================
    ACTIVE MODE PILL
@@ -379,8 +379,8 @@ div[data-baseweb="select"]:focus-within > div,
     gap: 8px;
     padding: 7px 14px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.65);
-    border: 1px solid rgba(0,0,0,0.07);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
     font-size: 12.5px;
     font-weight: 600;
     color: var(--c-700);
@@ -413,11 +413,11 @@ div[data-baseweb="select"]:focus-within > div,
     line-height: 1.75;
 }
 [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
-    background: rgba(255,255,255,0.55) !important;
-    border: 1px solid rgba(255,255,255,0.8) !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
     border-radius: 18px !important;
     padding: 15px 18px !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
 }
 [data-testid="chatAvatarIcon-assistant"],
 [data-testid="chatAvatarIcon-user"] {
@@ -428,11 +428,11 @@ div[data-baseweb="select"]:focus-within > div,
    CODE BLOCK
    ========================================================== */
 pre {
-    background: rgba(235,235,235,0.8) !important;
-    border: 1px solid rgba(0,0,0,0.06) !important;
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 15px !important;
     padding: 17px !important;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
 }
 code { color: var(--c-900) !important; }
 /* ==========================================================
@@ -440,16 +440,16 @@ code { color: var(--c-900) !important; }
    ========================================================== */
 [data-testid="stChatInput"] { background: transparent !important; }
 [data-testid="stChatInput"] > div {
-    background: rgba(255,255,255,0.8) !important;
+    background: rgba(255,255,255,0.06) !important;
     backdrop-filter: blur(32px) saturate(120%);
     -webkit-backdrop-filter: blur(32px) saturate(120%);
-    border: 1px solid rgba(255,255,255,0.96) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
     border-radius: 22px !important;
-    box-shadow: 0 14px 45px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,1);
+    box-shadow: 0 14px 45px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
     transition: box-shadow 220ms ease, border-color 220ms ease;
 }
 [data-testid="stChatInput"] > div:focus-within {
-    box-shadow: 0 16px 50px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,1), 0 0 0 4px rgba(0,0,0,0.05);
+    box-shadow: 0 16px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 4px rgba(255,255,255,0.08);
 }
 /* ==========================================================
    SHARED ANIMATIONS
@@ -463,7 +463,7 @@ code { color: var(--c-900) !important; }
    ========================================================== */
 ::-webkit-scrollbar { width: 7px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 20px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 20px; }
 </style>
 """,
     unsafe_allow_html=True,
