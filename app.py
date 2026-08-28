@@ -30,7 +30,7 @@ if "api_key" not in st.session_state:
 # ============================================================
 # AI MODEL LOGIC
 # ============================================================
-MODEL_NAME = "llama-3.3-70b-versatile"
+MODEL_NAME = "openai/gpt-oss-120b"
 SYSTEM_PROMPTS = {
     "Learn": (
         "You are a patient, encouraging Python tutor in 'Learn' mode. "
