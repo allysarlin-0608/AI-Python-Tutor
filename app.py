@@ -31,29 +31,66 @@ if "api_key" not in st.session_state:
 # AI MODEL LOGIC
 # ============================================================
 MODEL_NAME = "openai/gpt-oss-120b"
+# ------------------------------------------------------------
+# BASE_SYSTEM_INSTRUCTION applies to every mode. It's what keeps this
+# a *Python tutor* instead of a general-purpose chatbot: it fixes the
+# scope (Python/programming only), and sets the academic-integrity rule
+# (don't just hand over full solutions to what looks like graded work).
+# ------------------------------------------------------------
+BASE_SYSTEM_INSTRUCTION = (
+    "You are AI Python Tutor, a Python-learning assistant for computer "
+    "science students. You only help with Python programming topics: "
+    "concepts, syntax, debugging, and practice exercises. If the student "
+    "asks about anything outside Python or programming, politely decline "
+    "and redirect them back to Python. Never write a complete solution to "
+    "what looks like a full graded assignment prompt with no attempt "
+    "attached; if the student hasn't shown their own attempted code yet, "
+    "ask them to share it first. Be honest about uncertainty rather than "
+    "guessing at Python behavior you're not sure of."
+)
+# Mode-specific behavior. Each template is filled in with the chosen topic.
 SYSTEM_PROMPTS = {
     "Learn": (
-        "You are a patient, encouraging Python tutor in 'Learn' mode. "
-        "The student is studying the topic '{topic}' at a '{difficulty}' level. "
-        "Explain concepts clearly, from first principles, using short, "
+        "Mode: Learn. The student is studying the topic '{topic}'. Explain "
+        "concepts clearly, from first principles, using short, "
         "well-commented Python code examples. Keep answers focused and "
         "avoid overwhelming the student. End with a short check-in question "
         "to confirm understanding."
     ),
     "Practice": (
-        "You are a Python tutor in 'Practice' mode. The student wants to "
-        "practice '{topic}' at a '{difficulty}' level. Give exactly one "
-        "exercise at a time. Do not reveal the solution immediately — "
-        "wait for the student's attempt, then give feedback and, only if "
-        "asked or if they got it wrong twice, show the correct solution "
-        "with an explanation."
+        "Mode: Practice. The student wants to practice '{topic}'. Give "
+        "exactly one exercise at a time. Do not reveal the solution "
+        "immediately — wait for the student's attempt, then give feedback "
+        "and, only if asked or if they got it wrong twice, show the "
+        "correct solution with an explanation."
     ),
     "Debug": (
-        "You are a Python debugging assistant in 'Debug' mode. The student "
-        "will paste code and/or an error message. Identify the bug, explain "
-        "why it happens in plain language, show the corrected code, and "
-        "give one tip to avoid this mistake in the future. Be concise and "
-        "concrete."
+        "Mode: Debug. The student will paste code and/or an error "
+        "message related to '{topic}'. If they've pasted their own "
+        "attempted code, identify the bug, explain why it happens in "
+        "plain language, show the corrected code, and give one tip to "
+        "avoid this mistake in the future. If they've only pasted an "
+        "assignment description with no code of their own, ask them to "
+        "share their attempt first instead of writing the solution for "
+        "them. Be concise and concrete."
+    ),
+}
+# How much the AI should assume the student already knows, per level.
+DIFFICULTY_GUIDANCE = {
+    "Beginner": (
+        "The student is a beginner. Avoid jargon, and when you must use a "
+        "technical term (e.g. 'loop', 'index'), briefly explain it the "
+        "first time. Use short, heavily commented code examples."
+    ),
+    "Intermediate": (
+        "The student is intermediate. You can use common technical terms "
+        "(loops, functions, list comprehensions) without re-explaining "
+        "them, but still explain anything more advanced than that."
+    ),
+    "Advanced": (
+        "The student is advanced. You may use technical vocabulary freely "
+        "(e.g. OOP terms, decorators, generators) without re-explaining "
+        "basics. Keep explanations concise rather than exhaustive."
     ),
 }
 def get_client():
@@ -63,8 +100,18 @@ def get_client():
         return None
     return groq.Groq(api_key=key)
 def build_system_prompt(mode: str, topic: str, difficulty: str) -> str:
-    template = SYSTEM_PROMPTS.get(mode, SYSTEM_PROMPTS["Learn"])
-    return template.format(topic=topic, difficulty=difficulty)
+    """Combine the base scope/integrity rules with the mode's behavior
+    and the student's chosen experience level into one system prompt."""
+    mode_template = SYSTEM_PROMPTS.get(mode, SYSTEM_PROMPTS["Learn"])
+    mode_instruction = mode_template.format(topic=topic)
+    depth_instruction = DIFFICULTY_GUIDANCE.get(
+        difficulty, DIFFICULTY_GUIDANCE["Beginner"]
+    )
+    return (
+        f"{BASE_SYSTEM_INSTRUCTION}\n\n"
+        f"{mode_instruction}\n\n"
+        f"{depth_instruction}"
+    )
 def to_api_messages(messages):
     """Convert session_state messages into the Groq API message format."""
     return [
@@ -493,7 +540,8 @@ with st.sidebar:
     )
     st.markdown(
         '<div class="sidebar-description">'
-        'Learn Python through a focused AI tutor, powered by Groq (Llama 3.3).'
+        'A focused Python tutor — explains concepts, builds practice '
+        'exercises, and debugs your code. Not a general chatbot.'
         '</div>',
         unsafe_allow_html=True,
     )
@@ -657,7 +705,12 @@ for message in st.session_state.messages:
 # CHAT INPUT — REAL AI MODEL CALL
 # ============================================================
 prompt = st.chat_input("Message AI Python Tutor...")
-if prompt:
+# Handle empty / whitespace-only input explicitly rather than silently
+# sending it to the API (st.chat_input blocks a fully empty submit, but
+# a message of just spaces can still get through).
+if prompt is not None and prompt.strip() == "":
+    st.warning("Please type a question before sending.")
+elif prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
