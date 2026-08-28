@@ -182,6 +182,10 @@ html, body, [class*="css"] {
         radial-gradient(700px 500px at 90% 5%, rgba(255,255,255,0.03), transparent 70%),
         linear-gradient(135deg, #000000 0%, var(--c-100) 100%);
     color: var(--c-900);
+    /* Belt-and-suspenders: force strict black/white/gray everywhere,
+       including any color Streamlit's own components (alerts, code
+       syntax highlighting, etc.) might otherwise render. */
+    filter: grayscale(1);
 }
 .block-container {
     max-width: 1060px;
@@ -351,14 +355,14 @@ div[data-baseweb="select"]:focus-within > div,
 .mode-card {
     position: relative;
     overflow: hidden;
-    height: 205px;
+    height: 155px;
     box-sizing: border-box;
     background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
     backdrop-filter: blur(40px) saturate(140%);
     -webkit-backdrop-filter: blur(40px) saturate(140%);
     border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 26px;
-    padding: 25px;
+    border-radius: 20px;
+    padding: 16px;
     box-shadow: 0 12px 35px var(--glass-shadow), 0 0 0 1px var(--glass-edge), inset 0 1px 0 var(--glass-highlight), inset 0 -1px 0 rgba(0,0,0,0.35);
     transition: transform 240ms var(--ease-out), box-shadow 240ms ease, background 240ms ease;
     animation: cardIn 520ms var(--ease-out) both;
@@ -388,17 +392,18 @@ div[data-baseweb="select"]:focus-within > div,
 }
 .mode-icon {
     position: relative;
-    width: 42px;
-    height: 42px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 14px;
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(16px);
     border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 13px;
+    border-radius: 9px;
     color: var(--c-900);
-    margin-bottom: 18px;
+    margin-bottom: 8px;
     box-shadow: 0 0 0 1px var(--glass-edge), inset 0 1px 0 var(--glass-highlight);
     transition: transform 240ms var(--ease-out), background 240ms ease;
 }
@@ -408,21 +413,21 @@ div[data-baseweb="select"]:focus-within > div,
     color: var(--c-black);
 }
 .mode-title {
-    font-size: 16px;
+    font-size: 14.5px;
     font-weight: 600;
     color: var(--c-900);
-    margin-bottom: 7px;
+    margin-bottom: 3px;
 }
 .mode-description {
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 12px;
+    line-height: 1.4;
     color: var(--c-500);
 }
-.mode-action { margin-top: 18px; }
+.mode-action { margin-top: 8px; }
 .mode-action .stButton > button {
-    height: 38px;
-    border-radius: 11px !important;
-    font-size: 13px !important;
+    height: 30px;
+    border-radius: 10px !important;
+    font-size: 12.5px !important;
     background: rgba(255,255,255,0.06) !important;
 }
 /* ==========================================================
@@ -478,6 +483,15 @@ div[data-baseweb="select"]:focus-within > div,
     border-radius: 20px !important;
     padding: 15px 18px !important;
     box-shadow: 0 0 0 1px var(--glass-edge), inset 0 1px 0 var(--glass-highlight);
+}
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
+    background: rgba(255,255,255,0.04) !important;
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    border-radius: 20px !important;
+    padding: 15px 18px !important;
+    box-shadow: 0 0 0 1px var(--glass-edge), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 [data-testid="chatAvatarIcon-assistant"],
 [data-testid="chatAvatarIcon-user"] {
@@ -618,8 +632,7 @@ if not st.session_state.messages:
             '<div class="mode-icon">◎</div>'
             '<div class="mode-title">Learn</div>'
             '<div class="mode-description">'
-            'Understand Python concepts through clear explanations, '
-            'examples, and step-by-step guidance.'
+            'Clear explanations and guided examples.'
             '</div></div>',
             unsafe_allow_html=True,
         )
@@ -644,8 +657,7 @@ if not st.session_state.messages:
             '<div class="mode-icon">△</div>'
             '<div class="mode-title">Practice</div>'
             '<div class="mode-description">'
-            'Build your programming skills with questions and '
-            'exercises matched to your level.'
+            'One exercise at a time, matched to your level.'
             '</div></div>',
             unsafe_allow_html=True,
         )
@@ -671,8 +683,7 @@ if not st.session_state.messages:
             '<div class="mode-icon">&lt;/&gt;</div>'
             '<div class="mode-title">Debug</div>'
             '<div class="mode-description">'
-            'Find errors in your Python code and understand exactly '
-            'why they happen and how to fix them.'
+            'Paste your code or error to find the bug.'
             '</div></div>',
             unsafe_allow_html=True,
         )
