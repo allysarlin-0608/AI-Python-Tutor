@@ -22,11 +22,11 @@ if "messages" not in st.session_state:
 if "mode" not in st.session_state:
     st.session_state.mode = "Learn"
 if "api_key" not in st.session_state:
-    st.session_state.api_key = (
-        st.secrets.get("GROQ_API_KEY", "")
-        if hasattr(st, "secrets")
-        else ""
-    ) or os.environ.get("GROQ_API_KEY", "")
+    try:
+        secret_key = st.secrets.get("GROQ_API_KEY", "")
+    except Exception:  # no secrets.toml at all
+        secret_key = ""
+    st.session_state.api_key = secret_key or os.environ.get("GROQ_API_KEY", "")
 # ============================================================
 # AI MODEL LOGIC
 # ============================================================
