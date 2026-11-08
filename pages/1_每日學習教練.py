@@ -39,6 +39,9 @@ if "coach_messages" not in st.session_state:
 if "coach_active" not in st.session_state:
     # (date iso, topic) of the lesson the chat belongs to.
     st.session_state.coach_active = None
+if "coach_new_awards" not in st.session_state:
+    # Awards earned by the last tick, shown once after the rerun.
+    st.session_state.coach_new_awards = []
 
 log = st.session_state.coach_log
 
@@ -127,6 +130,24 @@ with st.sidebar:
             st.write(f"{label}：{count} 次（下次 {core.level_for_session(count + 1)}）")
     if not log["entries"]:
         st.write("還沒有紀錄，今天就是第一筆。")
+
+    st.divider()
+    awards = core.compute_awards(log)
+    earned = [a for a in awards if a["earned_on"]]
+    st.markdown(f"**🏅 我的獎章　{len(earned)} / {len(awards)}**")
+    if earned:
+        st.write("　".join(a["icon"] for a in earned))
+    with st.expander("看全部獎章"):
+        for a in awards:
+            if a["earned_on"]:
+                st.markdown(f"{a['icon']} **{a['name']}**　{a['earned_on'].isoformat()} 獲得")
+                st.caption(a["description"])
+            else:
+                st.markdown(f"🔒 {a['name']}")
+                st.progress(
+                    a["progress"] / a["goal"],
+                    text=f"{a['description']}（{a['progress']} / {a['goal']}）",
+                )
 
     st.divider()
     st.download_button(
@@ -222,9 +243,19 @@ if entry is not None:
         key=f"done_{today.isoformat()}_{topic}",
     )
     if done != entry.get("completed", False):
+        before = core.earned_award_keys(log)
         entry["completed"] = done
+        after = core.earned_award_keys(log)
+        st.session_state.coach_new_awards = [
+            a for a in core.compute_awards(log) if a["key"] in after - before
+        ]
         persist()
         st.rerun()
+    if st.session_state.coach_new_awards:
+        for a in st.session_state.coach_new_awards:
+            st.success(f"{a['icon']} 獲得新獎章：**{a['name']}**（{a['description']}）")
+        st.balloons()
+        st.session_state.coach_new_awards = []
     if entry.get("completed"):
         st.caption(f"已打勾。目前連續完成 {core.current_streak(log, today)} 天。")
     else:

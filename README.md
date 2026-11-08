@@ -16,6 +16,11 @@ auto-generated summary of her learning log.
   (override with `COACH_LOG_PATH`). Streaks count through yesterday so they
   never look broken before today is done. On hosts with a temporary
   filesystem (e.g. Streamlit Cloud), use the sidebar's download / import backup.
+- **獎章（Awards）**: 13 badges computed from the learning log (streaks, total
+  days, all seven topics, 8 sessions in one topic, reflections, a full weekend,
+  a perfect Mon–Sun week, coming back after 7+ days). Each records the date it
+  was earned; locked ones show progress in the sidebar. Nothing extra is
+  stored, so awards always match the log. Defined in `AWARDS` in `coach/core.py`.
 - Dates default to `Asia/Taipei` (override with `COACH_TIMEZONE`).
 
 Run tests with `python -m pytest tests`.

@@ -180,6 +180,101 @@ def weekly_topic_counts(log: dict, today: date) -> dict:
 
 
 # ------------------------------------------------------------
+# Awards: badges computed from the learning log
+# ------------------------------------------------------------
+# Every award is "metric >= goal". The log is replayed one day at a time,
+# so each award knows the date it was earned, and a locked one shows how
+# far along it is. Nothing is stored: awards always follow the log, so
+# importing a backup or un-ticking a day updates them automatically.
+
+AWARDS = (
+    # key, icon, name, metric, goal, description
+    ("first_step", "🌱", "第一步", "completed_days", 1, "完成第一天的學習"),
+    ("streak_3", "🔥", "三日不斷", "best_streak", 3, "連續完成 3 天"),
+    ("streak_7", "⚡", "一週連勝", "best_streak", 7, "連續完成 7 天"),
+    ("streak_30", "🏆", "三十日修行", "best_streak", 30, "連續完成 30 天"),
+    ("total_10", "📘", "十堂課", "completed_days", 10, "累計完成 10 天"),
+    ("total_30", "📚", "三十堂課", "completed_days", 30, "累計完成 30 天"),
+    ("total_100", "🎓", "百日學者", "completed_days", 100, "累計完成 100 天"),
+    ("explorer", "🧭", "全主題探索者", "topics_covered", len(TOPICS), "七個主題都至少完成一次"),
+    ("deep_diver", "💎", "深度玩家", "max_topic_sessions", 8, "同一個主題完成 8 次，進入進階"),
+    ("thinker", "💭", "反思家", "reflections", 5, "寫下 5 次對延伸提問的想法"),
+    ("weekend", "☀️", "週末也在學", "full_weekends", 1, "同一個週末的六、日都完成"),
+    ("perfect_week", "✨", "完美一週", "perfect_weeks", 1, "週一到週日每天都完成"),
+    ("comeback", "🌈", "回來就好", "comebacks", 1, "隔了 7 天以上，又回來完成一次"),
+)
+
+COMEBACK_GAP_DAYS = 7
+
+
+def _daily_metrics(log: dict, until: date = None):
+    """Yield (day, metrics) after each day that has an entry, in order."""
+    by_day = {}
+    for e in log["entries"]:
+        if until is None or e["date"] <= until.isoformat():
+            by_day.setdefault(e["date"], []).append(e)
+
+    done = set()
+    topic_days = {key: set() for key in TOPICS}
+    m = {metric: 0 for _, _, _, metric, _, _ in AWARDS}
+    streak = 0
+    last_done = None
+    for iso in sorted(by_day):
+        day = date.fromisoformat(iso)
+        entries = by_day[iso]
+        m["reflections"] += sum(1 for e in entries if str(e.get("reflection", "")).strip())
+        completed = [e for e in entries if e.get("completed")]
+        if completed:
+            done.add(day)
+            for e in completed:
+                topic_days[e["topic"]].add(day)
+            if last_done is not None and (day - last_done).days >= COMEBACK_GAP_DAYS:
+                m["comebacks"] += 1
+            streak = streak + 1 if last_done == day - timedelta(days=1) else 1
+            last_done = day
+            m["completed_days"] = len(done)
+            m["best_streak"] = max(m["best_streak"], streak)
+            m["topics_covered"] = sum(1 for days in topic_days.values() if days)
+            m["max_topic_sessions"] = max(len(days) for days in topic_days.values())
+            # Days replay in order, so a weekend or a Mon–Sun week can only
+            # be finished on its Sunday; count it there, once.
+            if day.weekday() == 6:
+                if day - timedelta(days=1) in done:
+                    m["full_weekends"] += 1
+                if all(day - timedelta(days=i) in done for i in range(1, 7)):
+                    m["perfect_weeks"] += 1
+        yield day, dict(m)
+
+
+def compute_awards(log: dict, until: date = None) -> list:
+    """Every award with its progress and the date it was earned (or None).
+    `until` ignores entries after that date."""
+    earned_on = {}
+    final = {metric: 0 for _, _, _, metric, _, _ in AWARDS}
+    for day, metrics in _daily_metrics(log, until):
+        final = metrics
+        for key, _, _, metric, goal, _ in AWARDS:
+            if key not in earned_on and metrics[metric] >= goal:
+                earned_on[key] = day
+    return [
+        {
+            "key": key,
+            "icon": icon,
+            "name": name,
+            "description": description,
+            "goal": goal,
+            "progress": min(final[metric], goal),
+            "earned_on": earned_on.get(key),
+        }
+        for key, icon, name, metric, goal, description in AWARDS
+    ]
+
+
+def earned_award_keys(log: dict, until: date = None) -> set:
+    return {a["key"] for a in compute_awards(log, until) if a["earned_on"]}
+
+
+# ------------------------------------------------------------
 # Parsing the coach's six-block answer
 # ------------------------------------------------------------
 
@@ -209,6 +304,9 @@ def build_history_context(log: dict, topic: str, today: date) -> str:
         f"- 目前連續完成天數：{current_streak(log, today)} 天",
         f"- 累計完成天數：{len(completed_dates(log))} 天",
     ]
+    earned = [a for a in compute_awards(log, today) if a["earned_on"]]
+    if earned:
+        lines.append("- 她已經獲得的獎章：" + "、".join(a["name"] for a in earned))
 
     gap = days_since_last_visit(log, today)
     if gap is None:
